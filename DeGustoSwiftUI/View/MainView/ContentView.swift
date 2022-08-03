@@ -10,12 +10,13 @@ import SwiftUI
 struct ContentView: View {
     
     @ObservedObject var mainViewModel = MainViewModel()
+    @ObservedObject var sliderImagesViewModel = SliderImagesViewModel()
     
     var body: some View {
         NavigationView {
             VStack {
                 TabView {
-                    VStack{
+                    VStack {
                         scrollView
                         tableView
                     }
@@ -47,34 +48,53 @@ struct ContentView: View {
                 Image(systemName: "cart")
                     .imageScale(.large)
             })
-            
         }.onAppear(perform: {
-            self.mainViewModel.fetchSliderImages()
+            self.sliderImagesViewModel.fetchSliderImages()
+            self.mainViewModel.fetchMenu {
+                self.mainViewModel.fetchSectionMenuImage()
+            }   
         })
     }
     
     var scrollView: some View {
         ScrollView(.horizontal) {
             HStack(spacing: 20) {
-                
-//                ForEach(0..<mainViewModel.sliderImages.count) {
-//                for item in mainViewModel.sliderImages {
-//                    Text("Item \($0)")
-//                        .foregroundColor(.white)
-//                        .font(.largeTitle)
-//                        .frame(width: 300, height: 200)
-//                        .background(.red)
-//                }
+                ForEach(sliderImagesViewModel.sliderImages, id: \.self) { image in
+                    ImageView(sliderImages: image)
+                }
             }
+            .padding(.horizontal)
         }
         .padding(.top)
     }
     
     var tableView: some View {
         List {
-            Text(mainViewModel.test)
+            ForEach(mainViewModel.menu) { item in
+                HStack {
+                    Image(uiImage: (item.sectionImage ?? UIImage(systemName: "person"))!)
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 50, height: 50)
+                    
+                    Text(item.title)
+                        .font(.system(.title3, design: .rounded))
+                        .bold()
+                }
+            }
         }
         .listStyle(.plain)
+    }
+}
+
+struct ImageView: View {
+    let sliderImages: SliderImage
+    var body: some View {
+        Image(uiImage: sliderImages.image)
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: 400, height: 200)
     }
 }
 

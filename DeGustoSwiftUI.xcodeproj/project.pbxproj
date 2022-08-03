@@ -15,6 +15,9 @@
 		607290382898EDF800C6479E /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607290372898EDF700C6479E /* MapView.swift */; };
 		6072903A289901AE00C6479E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60729039289901AE00C6479E /* GoogleService-Info.plist */; };
 		60D84A6E2899913C0070D042 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6D2899913C0070D042 /* MainViewModel.swift */; };
+		60D84A70289A555D0070D042 /* SliderImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6F289A555D0070D042 /* SliderImageModel.swift */; };
+		60D84A77289A75B10070D042 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A76289A75B10070D042 /* MenuModel.swift */; };
+		60D84A79289A8BDD0070D042 /* SliderImagesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A78289A8BDD0070D042 /* SliderImagesViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +30,9 @@
 		607290372898EDF700C6479E /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		60729039289901AE00C6479E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		60D84A6D2899913C0070D042 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		60D84A6F289A555D0070D042 /* SliderImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderImageModel.swift; sourceTree = "<group>"; };
+		60D84A76289A75B10070D042 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
+		60D84A78289A8BDD0070D042 /* SliderImagesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderImagesViewModel.swift; sourceTree = "<group>"; };
 		8D1782FE44344DEDE14998CE /* Pods-DeGustoSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeGustoSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-DeGustoSwiftUI/Pods-DeGustoSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
 		B9310117675DB8F7A77E5E8E /* Pods-DeGustoSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeGustoSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-DeGustoSwiftUI/Pods-DeGustoSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -103,7 +109,7 @@
 		607290342897B0D000C6479E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				607290282897AE0300C6479E /* ContentView.swift */,
+				60D84A71289A64FC0070D042 /* MainView */,
 				607290372898EDF700C6479E /* MapView.swift */,
 			);
 			path = View;
@@ -112,6 +118,8 @@
 		607290352897B0DC00C6479E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				60D84A6F289A555D0070D042 /* SliderImageModel.swift */,
+				60D84A76289A75B10070D042 /* MenuModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -120,8 +128,17 @@
 			isa = PBXGroup;
 			children = (
 				60D84A6D2899913C0070D042 /* MainViewModel.swift */,
+				60D84A78289A8BDD0070D042 /* SliderImagesViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		60D84A71289A64FC0070D042 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				607290282897AE0300C6479E /* ContentView.swift */,
+			);
+			path = MainView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,8 +257,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				607290292897AE0300C6479E /* ContentView.swift in Sources */,
+				60D84A70289A555D0070D042 /* SliderImageModel.swift in Sources */,
 				607290382898EDF800C6479E /* MapView.swift in Sources */,
+				60D84A77289A75B10070D042 /* MenuModel.swift in Sources */,
 				607290272897AE0300C6479E /* DeGustoSwiftUIApp.swift in Sources */,
+				60D84A79289A8BDD0070D042 /* SliderImagesViewModel.swift in Sources */,
 				60D84A6E2899913C0070D042 /* MainViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

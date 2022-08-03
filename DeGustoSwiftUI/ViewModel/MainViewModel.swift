@@ -10,44 +10,44 @@ import Firebase
 
 class MainViewModel: ObservableObject {
     
-    @Published var test = ""
-    @Published var sliderImages = [UIImage]()
+    @Published var menu = [SectionData]()
     
-    func fetchSliderImages() {
-        print("test")
-        let storageReference = Storage.storage().reference().child("sliderImages")
-        storageReference.listAll { (result, error) in
-            if let error = error {
-                print("Error: ", error)
-            }
-            guard let result = result else { return }
-            for item in result.items {
-                let storageRef = Storage.storage().reference().child("sliderImages/\(item.name)")
-                storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
-                    if let error = error {
-                        print("Uh-oh, an error occurred in CategoryRow func getImagesForSlider!", error)
-                    } else {
-                        if let imgData = data {
-                            if let image = UIImage(data: imgData) {
-                                DispatchQueue.main.async {
-                                    self.sliderImages.append(image)
-                                }
-                            }
+    func fetchMenu(completion: @escaping () -> ()) {
+        Database.database().reference().child("menu").observe(.value, with: { snapshot in
+            if !snapshot.exists() { return }
+            if let menuDict : Dictionary = snapshot.value as? Dictionary<String,Any> {
+                for (key, value) in menuDict {
+                    let sectionDishTitleKey = key
+                    guard let dishDict : Dictionary = value as? Dictionary<String,Any> else { return }
+                    var imageName = ""
+                    var order = 0
+                    for (key, value) in dishDict {
+                        if key == "sectionImgName" {
+                            imageName = value as? String ?? ""
+                        }
+                        if key == "order" {
+                            order = value as? Int ?? 0
                         }
                     }
+                    self.menu.append(SectionData(id: UUID(), open: false, title: "\(sectionDishTitleKey)", sectionImgName: imageName, sectionImage: nil, order: order))
+                }
+            }
+            completion()
+        })
+    }
+    
+    func fetchSectionMenuImage() {
+        for item in menu {
+            let storageRef = Storage.storage().reference().child("sectionImages").child("\(item.sectionImgName).jpg")
+            storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
+                if let error = error {
+                    print("Error fetchSectionMenuImage", error)
+                } else {
+                    guard let imgData = data else { return }
+                    guard let image = UIImage(data: imgData) else { return }
+                    item.sectionImage = image
                 }
             }
         }
-    }
-    
-    func fetchMenu() {
-        print("test")
-        Database.database().reference().child("menu").observe(.value, with: { snapshot in
-            if !snapshot.exists() { return }
-            DispatchQueue.main.async {
-                self.test = "Result"
-            }
-            //            print(snapshot.value)
-        })
     }
 }
