@@ -30,22 +30,23 @@ class MainViewModel: ObservableObject {
                         }
                     }
                     self.menu.append(SectionData(id: UUID(), open: false, title: "\(sectionDishTitleKey)", sectionImgName: imageName, sectionImage: nil, order: order))
+                    self.menu = self.menu.sorted(by: { $0.order < $1.order })
                 }
             }
             completion()
         })
-    }
+    }o
     
     func fetchSectionMenuImage() {
-        for item in menu {
-            let storageRef = Storage.storage().reference().child("sectionImages").child("\(item.sectionImgName).jpg")
+        for index in menu.indices {
+            let storageRef = Storage.storage().reference().child("sectionImages").child("\(menu[index].sectionImgName).jpg")
             storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
                 if let error = error {
                     print("Error fetchSectionMenuImage", error)
                 } else {
                     guard let imgData = data else { return }
                     guard let image = UIImage(data: imgData) else { return }
-                    item.sectionImage = image
+                    self.menu[index].sectionImage = image
                 }
             }
         }

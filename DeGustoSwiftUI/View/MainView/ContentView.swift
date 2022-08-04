@@ -52,7 +52,7 @@ struct ContentView: View {
             self.sliderImagesViewModel.fetchSliderImages()
             self.mainViewModel.fetchMenu {
                 self.mainViewModel.fetchSectionMenuImage()
-            }   
+            }
         })
     }
     
@@ -69,22 +69,21 @@ struct ContentView: View {
     }
     
     var tableView: some View {
-        List {
-            ForEach(mainViewModel.menu) { item in
-                HStack {
-                    Image(uiImage: (item.sectionImage ?? UIImage(systemName: "person"))!)
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .frame(width: 50, height: 50)
-                    
-                    Text(item.title)
-                        .font(.system(.title3, design: .rounded))
-                        .bold()
-                }
+        List (mainViewModel.menu) { item in
+            HStack {
+                Image(uiImage: (item.sectionImage ?? UIImage(systemName: "person"))!)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .frame(width: 50, height: 50)
+                
+                Text(item.title)
+                    .font(.system(.title3, design: .rounded))
+                    .bold()
             }
         }
         .listStyle(.plain)
+        .animation(.default, value: mainViewModel.menu)
     }
 }
 

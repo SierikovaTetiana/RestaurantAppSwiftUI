@@ -7,7 +7,8 @@
 
 import UIKit
 
-class SectionData: Identifiable {
+struct SectionData: Identifiable, Equatable {
+    
     var id = UUID()
     var open : Bool
     //    var data : [CellData] = []
@@ -16,13 +17,8 @@ class SectionData: Identifiable {
     var sectionImage : UIImage?
     var order : Int
     
-    init(id: UUID, open: Bool, title: String, sectionImgName: String, sectionImage: UIImage?, order: Int) {
-        self.id = id
-        self.open = open
-        self.title = title
-        self.sectionImgName = sectionImgName
-        self.sectionImage = sectionImage
-        self.order = order
+    static func == (lhs: SectionData, rhs: SectionData) -> Bool {
+        return true
     }
 }
 
