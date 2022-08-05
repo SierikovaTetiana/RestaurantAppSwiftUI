@@ -10,46 +10,38 @@ import SwiftUI
 struct MenuTableView: View {
     
     @ObservedObject var mainViewModel: MenuViewModel
-//    @State private var expanded: Bool = false
+    @State private var expanded: Set<String> = []
     
     var body: some View {
         List (mainViewModel.menu) { item in
             DisclosureGroup(
-//                isExpanded: $expanded,
+                isExpanded: Binding<Bool> (
+                    get: { expanded.contains(item.title) },
+                        set: { isExpanding in
+                            if isExpanding {
+                                expanded.insert(item.title)
+                                mainViewModel.fetchDishImages(indexOfSectionToFetch: mainViewModel.menu.firstIndex(of: item))
+                            } else {
+                                expanded.remove(item.title)
+                            }
+                        }
+                    ),
                 content: {
                     subView(item: item)
                 },
                 label: {
-//                    Button(
-                        HStack {
+                    HStack {
                         Image(uiImage: (item.sectionImage ?? UIImage(systemName: "leaf"))!)
                             .resizable()
                             .scaledToFit()
                             .clipShape(Circle())
                             .frame(width: 50, height: 50)
-                        
+
                         Text(item.title)
                             .font(.system(.title3, design: .rounded))
                             .bold()
                             .padding(.leading)
                     }
-//                    )  {
-//                        withAnimation {
-//                            expanded.toggle()
-//                        }
-//                      }
-//                    HStack {
-//                        Image(uiImage: (item.sectionImage ?? UIImage(systemName: "leaf"))!)
-//                            .resizable()
-//                            .scaledToFit()
-//                            .clipShape(Circle())
-//                            .frame(width: 50, height: 50)
-//
-//                        Text(item.title)
-//                            .font(.system(.title3, design: .rounded))
-//                            .bold()
-//                            .padding(.leading)
-//                    }
                 }
             )
         }
@@ -62,7 +54,7 @@ struct MenuTableView: View {
     func subView(item: SectionData) -> some View {
         return VStack {
             ForEach(item.data, id: \.self) { dish in
-                Image(uiImage: (item.sectionImage ?? UIImage(systemName: "leaf"))!)
+                Image(uiImage: (dish.dishImage ?? UIImage(systemName: "leaf"))!)
                     .resizable()
                     .scaledToFit()
                 Text(dish.dishTitle)
@@ -84,11 +76,12 @@ struct MenuTableView: View {
                         .font(.system(.title, design: .rounded))
                         .bold()
                         .foregroundColor(Color("darkGreen"))
-                    //TODO: make Button, not text:
-                    Text("У КОШИК")
-                        .font(.system(.title2, design: .rounded))
-                        .foregroundColor(Color("darkGreen"))
-                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    Button("У КОШИК") {
+                        print("У КОШИК pressed")
+                    }
+                    .font(.system(.title2, design: .rounded))
+                    .foregroundColor(Color("darkGreen"))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
         }
