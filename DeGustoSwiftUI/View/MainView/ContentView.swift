@@ -58,6 +58,7 @@ struct ContentView: View {
             self.mainViewModel.fetchMenu {
                 self.mainViewModel.fetchSectionMenuImage()
             }
+            UserAutorization.userAutorization.autorizeUser()
         })
     }
 }

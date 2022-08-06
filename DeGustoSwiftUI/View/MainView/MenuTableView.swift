@@ -17,15 +17,15 @@ struct MenuTableView: View {
             DisclosureGroup(
                 isExpanded: Binding<Bool> (
                     get: { expanded.contains(item.title) },
-                        set: { isExpanding in
-                            if isExpanding {
-                                expanded.insert(item.title)
-                                mainViewModel.fetchDishImages(indexOfSectionToFetch: mainViewModel.menu.firstIndex(of: item))
-                            } else {
-                                expanded.remove(item.title)
-                            }
+                    set: { isExpanding in
+                        if isExpanding {
+                            expanded.insert(item.title)
+                            mainViewModel.fetchDishImages(indexOfSectionToFetch: mainViewModel.menu.firstIndex(of: item))
+                        } else {
+                            expanded.remove(item.title)
                         }
-                    ),
+                    }
+                ),
                 content: {
                     subView(item: item)
                 },
@@ -36,7 +36,7 @@ struct MenuTableView: View {
                             .scaledToFit()
                             .clipShape(Circle())
                             .frame(width: 50, height: 50)
-
+                        
                         Text(item.title)
                             .font(.system(.title3, design: .rounded))
                             .bold()
@@ -54,9 +54,16 @@ struct MenuTableView: View {
     func subView(item: SectionData) -> some View {
         return VStack {
             ForEach(item.data, id: \.self) { dish in
-                Image(uiImage: (dish.dishImage ?? UIImage(systemName: "leaf"))!)
-                    .resizable()
-                    .scaledToFit()
+                if dish.dishImage != nil {
+                    Image(uiImage: (dish.dishImage!))
+                        .resizable()
+                        .scaledToFit()
+                        .overlay(
+                            ZStack {
+                                FaveButton(mainViewModel: mainViewModel, dish: dish, sectionIndex: mainViewModel.menu.firstIndex(of: item))
+                            }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                        )
+                }
                 Text(dish.dishTitle)
                     .font(.system(.title, design: .rounded))
                     .bold()
@@ -82,6 +89,7 @@ struct MenuTableView: View {
                     .font(.system(.title2, design: .rounded))
                     .foregroundColor(Color("darkGreen"))
                     .frame(maxWidth: .infinity, alignment: .trailing)
+                    .buttonStyle(BorderlessButtonStyle())
                 }
             }
         }
