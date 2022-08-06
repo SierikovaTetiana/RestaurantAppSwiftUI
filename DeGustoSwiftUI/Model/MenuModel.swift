@@ -22,6 +22,7 @@ struct DishData: Identifiable, Equatable, Hashable {
     var dishTitle : String = ""
     var dishImage : UIImage?
     var dishImgName : String = ""
+    var parentSectionTitleForFave : String?
     var description : String = ""
     var weight : Int = 0
     var price : Int = 0

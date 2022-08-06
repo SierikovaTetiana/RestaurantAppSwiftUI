@@ -21,6 +21,7 @@ extension MenuViewModel {
                 for index in self.menu.indices {
                     if let indexOfDish = self.menu[index].data.firstIndex(where: { $0.dishTitle == item }) {
                         self.menu[index].data[indexOfDish].favorite = true
+                        self.menu[index].data[indexOfDish].parentSectionTitleForFave = self.menu[index].title
                         self.addDishToFaveSection(sectionIndex: index, dishIndex: indexOfDish)
                     }
                 }

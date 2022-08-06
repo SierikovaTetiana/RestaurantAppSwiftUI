@@ -62,18 +62,22 @@ class MenuViewModel: ObservableObject {
     
     
     func fetchDishImages(indexOfSectionToFetch: Int?) {
+        var sectionTitle = ""
         guard let sectionIndex = indexOfSectionToFetch else { return }
-        if menu[sectionIndex].title != faveSection {
-            for index in menu[sectionIndex].data.indices {
-                let storageRef = Storage.storage().reference().child("menuImages").child(menu[sectionIndex].title).child("\(menu[sectionIndex].data[index].dishImgName).jpg")
-                storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
-                    if let error = error {
-                        print("Error fetchDishImages", error)
-                    } else {
-                        guard let imgData = data else { return }
-                        guard let image = UIImage(data: imgData) else { return }
-                        self.menu[sectionIndex].data[index].dishImage = image
-                    }
+        for index in menu[sectionIndex].data.indices {
+            if menu[sectionIndex].title != faveSection {
+                sectionTitle = menu[sectionIndex].title
+            } else {
+                sectionTitle = menu[sectionIndex].data[index].parentSectionTitleForFave ?? ""
+            }
+            let storageRef = Storage.storage().reference().child("menuImages").child(sectionTitle).child("\(menu[sectionIndex].data[index].dishImgName).jpg")
+            storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
+                if let error = error {
+                    print("Error fetchDishImages", error)
+                } else {
+                    guard let imgData = data else { return }
+                    guard let image = UIImage(data: imgData) else { return }
+                    self.menu[sectionIndex].data[index].dishImage = image
                 }
             }
         }
