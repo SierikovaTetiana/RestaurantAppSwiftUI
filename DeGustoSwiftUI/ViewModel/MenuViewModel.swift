@@ -11,6 +11,7 @@ import Firebase
 class MenuViewModel: ObservableObject {
     
     @Published var menu = [SectionData]()
+    let faveSection = "Улюблене"
     
     func fetchMenu(completion: @escaping () -> ()) {
         Database.database().reference().child("menu").observe(.value, with: { snapshot in
@@ -62,7 +63,7 @@ class MenuViewModel: ObservableObject {
     
     func fetchDishImages(indexOfSectionToFetch: Int?) {
         guard let sectionIndex = indexOfSectionToFetch else { return }
-        if menu[sectionIndex].title != "Улюблене" {
+        if menu[sectionIndex].title != faveSection {
             for index in menu[sectionIndex].data.indices {
                 let storageRef = Storage.storage().reference().child("menuImages").child(menu[sectionIndex].title).child("\(menu[sectionIndex].data[index].dishImgName).jpg")
                 storageRef.getData(maxSize: 1 * 480 * 480) { data, error in

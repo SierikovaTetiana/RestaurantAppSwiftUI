@@ -17,7 +17,7 @@ struct ContentView: View {
             VStack {
                 TabView {
                     VStack {
-                        MenuScrollView(sliderImagesViewModel: sliderImagesViewModel)
+//                        MenuScrollView(sliderImagesViewModel: sliderImagesViewModel)
                         MenuTableView(mainViewModel: mainViewModel)
                     }
                     .tabItem {
@@ -57,6 +57,7 @@ struct ContentView: View {
             self.sliderImagesViewModel.fetchSliderImages()
             self.mainViewModel.fetchMenu {
                 self.mainViewModel.fetchSectionMenuImage()
+                self.mainViewModel.fetchUserFavorites()
             }
             UserAutorization.userAutorization.autorizeUser()
         })
