@@ -21,6 +21,7 @@ struct MenuScrollView: View {
             .padding(.horizontal)
         }
         .padding(.top)
+        .animation(.linear, value: sliderImagesViewModel.sliderImages)
     }
 }
 

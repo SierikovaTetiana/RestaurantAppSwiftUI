@@ -16,9 +16,11 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 TabView {
+                    ScrollView {
                     VStack {
-//                        MenuScrollView(sliderImagesViewModel: sliderImagesViewModel)
+                        MenuScrollView(sliderImagesViewModel: sliderImagesViewModel)
                         MenuTableView(mainViewModel: mainViewModel)
+                    }
                     }
                     .tabItem {
                         Image("menuButton").resizable().aspectRatio(contentMode: .fit)
@@ -56,8 +58,9 @@ struct ContentView: View {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             self.sliderImagesViewModel.fetchSliderImages()
             self.mainViewModel.fetchMenu {
-                self.mainViewModel.fetchSectionMenuImage()
-                self.mainViewModel.fetchUserFavorites()
+                self.mainViewModel.fetchUserFavorites {
+                    self.mainViewModel.fetchSectionMenuImage()
+                }
             }
             UserAutorization.userAutorization.autorizeUser()
         })

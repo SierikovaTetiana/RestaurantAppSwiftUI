@@ -10,7 +10,7 @@ import Firebase
 
 extension MenuViewModel {
     
-    func fetchUserFavorites() {
+    func fetchUserFavorites(completion: @escaping () -> ()) {
         let userUid = UserAutorization.userAutorization.userUid
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
@@ -27,6 +27,7 @@ extension MenuViewModel {
                 }
                 self.menu = self.menu.sorted(by: { $0.order < $1.order })
             }
+            completion()
         }
     }
     

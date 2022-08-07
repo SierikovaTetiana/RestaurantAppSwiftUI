@@ -45,6 +45,7 @@ struct MenuTableView: View {
                 }
             )
         }
+        .frame(height: 1000)
         .accentColor(Color("darkGreen"))
         .environment(\.defaultMinListRowHeight, 80)
         .listStyle(.plain)
