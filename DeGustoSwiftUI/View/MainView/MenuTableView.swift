@@ -84,13 +84,8 @@ struct MenuTableView: View {
                         .font(.system(.title, design: .rounded))
                         .bold()
                         .foregroundColor(Color("darkGreen"))
-                    Button("У КОШИК") {
-                        print("У КОШИК pressed")
-                    }
-                    .font(.system(.title2, design: .rounded))
-                    .foregroundColor(Color("darkGreen"))
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .buttonStyle(BorderlessButtonStyle())
+                    CartButton(mainViewModel: mainViewModel, dish: dish, price: dish.price)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
         }

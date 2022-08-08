@@ -11,7 +11,7 @@ struct MenuScrollView: View {
     
     @ObservedObject var sliderImagesViewModel: SliderImagesViewModel
     @State private var currentIndex: Int = 0
-    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     let screenWidth: CGFloat
     
     var body: some View {

@@ -27,5 +27,4 @@ struct DishData: Identifiable, Equatable, Hashable {
     var weight : Int = 0
     var price : Int = 0
     var favorite : Bool = false
-    var cartCount : Int = 0
 }
