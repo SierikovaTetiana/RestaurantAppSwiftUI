@@ -27,13 +27,10 @@ class CartViewModel: ObservableObject {
                     }
                 }
             }
-//            print(self.cartDishData[cartDishData.firstIndex(where: { $0.dishTitle == dish.dishTitle })].count)
         }
     }
     
     func addChangesToCountDish(dish: DishData, price: Int, addDish: Bool) {
-        let userUid = UserAutorization.userAutorization.userUid
-        lazy var docRef = Firestore.firestore().collection("users").document(userUid)
         var count = 0
         var dishFromDishData = cartDishData.first(where: { $0.dishTitle == dish.dishTitle })
         count = dishFromDishData?.count ?? 0
@@ -41,19 +38,37 @@ class CartViewModel: ObservableObject {
         if count <= 0 {
             cartDishData.removeAll(where: { $0.dishTitle == dish.dishTitle })
         } else {
-            if count <= 1 {
+            if count <= 1 && addDish == true {
                 cartDishData.append(CartModel(dishTitle: dish.dishTitle, count: count, price: price))
             } else {
                 dishFromDishData?.count = count
+                for index in cartDishData.indices {
+                    if cartDishData[index].dishTitle == dish.dishTitle {
+                        cartDishData[index].count = count
+                    }
+                }
             }
+        }
+        updateCountDataInFirebase(dish: dish, count: count)
+    }
+    
+    func updateCountDataInFirebase(dish: DishData, count: Int) {
+        let userUid = UserAutorization.userAutorization.userUid
+        lazy var docRef = Firestore.firestore().collection("users").document(userUid)
+        if count != 0 {
             docRef.updateData(["cart.\(dish.dishTitle)": count]) { err in
                 if let err = err {
                     print("Error updating document: \(err)")
-                } else {
-                    print("Updated", count)
+                }
+            }
+        } else {
+            docRef.updateData([
+                "cart.\(dish.dishTitle)": FieldValue.delete(),
+            ]) { err in
+                if let err = err {
+                    print("Error updating document: \(err)")
                 }
             }
         }
     }
-    
 }

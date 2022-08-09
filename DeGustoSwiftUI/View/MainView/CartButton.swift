@@ -43,9 +43,9 @@ struct CartButton: View {
             .foregroundColor(Color("darkRed"))
             .font(Font.system(.body).bold())
             
-//            Text("\(cartViewModel.cartDishData[cartViewModel.cartDishData.firstIndex(where: { $0.dishTitle == dish.dishTitle })!].count)")
-//                .font(.system(.title2, design: .rounded))
-
+            Text("\(cartViewModel.cartDishData[cartViewModel.cartDishData.firstIndex(where: { $0.dishTitle == dish.dishTitle })!].count)")
+                .font(.system(.title2, design: .rounded))
+            
             Button(action: {
                 cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: true)
             }) {

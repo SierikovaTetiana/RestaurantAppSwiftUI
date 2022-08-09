@@ -46,7 +46,7 @@ struct MenuTableView: View {
                 }
             )
         }
-        .frame(height: 1000)
+        .frame(height: 1000) // TODO: Causes error: precondition failure: invalid graph update (access from multiple threads?)
         .accentColor(Color("darkGreen"))
         .environment(\.defaultMinListRowHeight, 80)
         .listStyle(.plain)
@@ -57,29 +57,9 @@ struct MenuTableView: View {
         return VStack {
             ForEach(item.data, id: \.self) { dish in
                 if dish.dishImage != nil {
-                    Image(uiImage: (dish.dishImage!))
-                        .resizable()
-                        .scaledToFit()
-                        .overlay(
-                            ZStack {
-                                FaveButton(mainViewModel: mainViewModel, dish: dish, sectionIndex: mainViewModel.menu.firstIndex(of: item))
-                            }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                        )
+                    dishImage(dish: dish, item: item)
                 }
-                Text(dish.dishTitle)
-                    .font(.system(.title, design: .rounded))
-                    .bold()
-                    .foregroundColor(Color("darkGreen"))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.bottom)
-                Text(dish.description)
-                    .font(.system(.title2, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                Text("\(dish.weight) гр.")
-                    .font(.system(.title3, design: .rounded))
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .foregroundColor(Color("darkGreen"))
-                    .padding(.bottom)
+                dishDiscription(dish: dish)
                 HStack {
                     Text("\(dish.price) грн.")
                         .font(.system(.title, design: .rounded))
@@ -89,6 +69,36 @@ struct MenuTableView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
+        }
+    }
+    
+    func dishImage(dish: DishData, item: SectionData) -> some View {
+        return Image(uiImage: (dish.dishImage!))
+            .resizable()
+            .scaledToFit()
+            .overlay(
+                ZStack {
+                    FaveButton(mainViewModel: mainViewModel, dish: dish, sectionIndex: mainViewModel.menu.firstIndex(of: item))
+                }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+            )
+    }
+    
+    func dishDiscription(dish: DishData) -> some View {
+        return VStack {
+            Text(dish.dishTitle)
+                .font(.system(.title, design: .rounded))
+                .bold()
+                .foregroundColor(Color("darkGreen"))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom)
+            Text(dish.description)
+                .font(.system(.title2, design: .rounded))
+                .frame(maxWidth: .infinity, alignment: .leading)
+            Text("\(dish.weight) гр.")
+                .font(.system(.title3, design: .rounded))
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .foregroundColor(Color("darkGreen"))
+                .padding(.bottom)
         }
     }
 }
