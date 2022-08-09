@@ -25,6 +25,12 @@ struct ContentView: View {
                                 MenuTableView(mainViewModel: mainViewModel, cartViewModel: cartViewModel)
                             }
                         }
+                        .overlay(
+                            VStack {
+                                Spacer()
+                                if !cartViewModel.cartDishData.isEmpty {
+                                    TotalInTheCartButton(screenWidth: geometry.size.width, cartViewModel: cartViewModel)
+                                }})
                         .tabItem {
                             Image("menuButton").resizable().aspectRatio(contentMode: .fit)
                             Text("Головна")

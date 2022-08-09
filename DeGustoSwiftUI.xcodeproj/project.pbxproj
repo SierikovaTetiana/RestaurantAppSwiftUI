@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02892A1A2149FD5334630609 /* Pods_DeGustoSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 546591EE9B7B14A5D2C29185 /* Pods_DeGustoSwiftUI.framework */; };
 		6011140F289D3ADA001B5E25 /* UserAutorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6011140E289D3ADA001B5E25 /* UserAutorization.swift */; };
+		601DC91328A2E1D500DFBF6F /* TotalInTheCartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601DC91228A2E1D500DFBF6F /* TotalInTheCartButton.swift */; };
 		604BDF3F28A0F534008DE572 /* CartButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604BDF3E28A0F534008DE572 /* CartButton.swift */; };
 		604BDF4228A10842008DE572 /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604BDF4128A10841008DE572 /* CartViewModel.swift */; };
 		604BDF4428A11389008DE572 /* CartModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604BDF4328A11389008DE572 /* CartModel.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		546591EE9B7B14A5D2C29185 /* Pods_DeGustoSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeGustoSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6011140E289D3ADA001B5E25 /* UserAutorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAutorization.swift; sourceTree = "<group>"; };
+		601DC91228A2E1D500DFBF6F /* TotalInTheCartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TotalInTheCartButton.swift; sourceTree = "<group>"; };
 		604BDF3E28A0F534008DE572 /* CartButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartButton.swift; sourceTree = "<group>"; };
 		604BDF4128A10841008DE572 /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 		604BDF4328A11389008DE572 /* CartModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartModel.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				608523B8289C2CD200BFF8BB /* MenuScrollView.swift */,
 				608523BA289D1B7000BFF8BB /* FaveButton.swift */,
 				604BDF3E28A0F534008DE572 /* CartButton.swift */,
+				601DC91228A2E1D500DFBF6F /* TotalInTheCartButton.swift */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 				60D84A70289A555D0070D042 /* SliderImageModel.swift in Sources */,
 				607290382898EDF800C6479E /* MapView.swift in Sources */,
 				60D84A77289A75B10070D042 /* MenuModel.swift in Sources */,
+				601DC91328A2E1D500DFBF6F /* TotalInTheCartButton.swift in Sources */,
 				607290272897AE0300C6479E /* DeGustoSwiftUIApp.swift in Sources */,
 				60D84A79289A8BDD0070D042 /* SliderImagesViewModel.swift in Sources */,
 				60D84A7D289C20C10070D042 /* MenuTableView.swift in Sources */,
