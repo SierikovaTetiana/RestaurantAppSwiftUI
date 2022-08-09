@@ -11,6 +11,8 @@ struct ContentView: View {
     
     @ObservedObject var mainViewModel = MenuViewModel()
     @ObservedObject var sliderImagesViewModel = SliderImagesViewModel()
+    @ObservedObject var userAutorization = UserAutorization()
+    @ObservedObject var cartViewModel = CartViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -20,7 +22,7 @@ struct ContentView: View {
                         ScrollView {
                             VStack {
                                 MenuScrollView(sliderImagesViewModel: sliderImagesViewModel, screenWidth: geometry.size.width)
-                                MenuTableView(mainViewModel: mainViewModel)
+                                MenuTableView(mainViewModel: mainViewModel, cartViewModel: cartViewModel)
                             }
                         }
                         .tabItem {
@@ -59,11 +61,13 @@ struct ContentView: View {
                 UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
                 self.sliderImagesViewModel.fetchSliderImages()
                 self.mainViewModel.fetchMenu {
+                    UserAutorization.userAutorization.autorizeUser {_ in
+                        cartViewModel.fetchUserCart(menu: mainViewModel.menu)
+                    }
                     self.mainViewModel.fetchUserFavorites {
                         self.mainViewModel.fetchSectionMenuImage()
                     }
                 }
-                UserAutorization.userAutorization.autorizeUser()
             })
         }
     }

@@ -8,14 +8,15 @@
 import Foundation
 import Firebase
 
-class UserAutorization {
+class UserAutorization: ObservableObject {
     
     static let userAutorization = UserAutorization()
-    var userUid = ""
+    @Published var userUid = String()
     
-    func autorizeUser() {
+    func autorizeUser(completion:@escaping (String) -> ()) {
         if Auth.auth().currentUser != nil {
             userUid = Auth.auth().currentUser!.uid
+            completion(self.userUid)
         } else {
             Auth.auth().signInAnonymously { authResult, error in
                 if let e = error {
@@ -24,6 +25,7 @@ class UserAutorization {
                     guard let user = authResult?.user else { return }
                     self.userUid = user.uid
                     Firestore.firestore().collection("users").document(self.userUid).setData([ "favorites": [] ])
+                    completion(self.userUid)
                 }
             }
         }

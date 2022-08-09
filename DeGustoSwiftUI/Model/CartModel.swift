@@ -10,14 +10,11 @@ import Foundation
 struct TotalCart {
     var totalPrice : Int = 0
     var totalPieces : Int = 0
-    var dishes : [CartModel : CartModelDetails] = [:]
+    var dishes : [CartModel] = []
 }
 
 struct CartModel: Hashable {
     var dishTitle : String = ""
-}
-
-struct CartModelDetails {
     var count : Int = 0
     var price : Int = 0
 }

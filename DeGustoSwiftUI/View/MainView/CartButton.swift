@@ -9,13 +9,13 @@ import SwiftUI
 
 struct CartButton: View {
     
-    @ObservedObject var cartViewModel = CartViewModel()
+    @ObservedObject var cartViewModel: CartViewModel
     @ObservedObject var mainViewModel: MenuViewModel
     let dish: DishData
     let price: Int
     
     var body: some View {
-        if cartViewModel.cardDishData.contains(where: { $0.key.dishTitle == dish.dishTitle }) {
+        if cartViewModel.cartDishData.contains(where: { $0.dishTitle == dish.dishTitle }) {
             addToCart()
         } else {
             emptyDishCart()
@@ -24,7 +24,7 @@ struct CartButton: View {
     
     func emptyDishCart() -> some View {
         return Button("У КОШИК") {
-            cartViewModel.addToCartPressed(dish: dish, price: price)
+            cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: true)
         }
         .font(.system(.title2, design: .rounded))
         .foregroundColor(Color("darkGreen"))
@@ -34,7 +34,7 @@ struct CartButton: View {
     func addToCart() -> some View {
         return HStack {
             Button(action: {
-                cartViewModel.minusPressed(dish: dish, price: price)
+                cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: false)
             }) {
                 Image(systemName: "minus")
             }
@@ -43,11 +43,11 @@ struct CartButton: View {
             .foregroundColor(Color("darkRed"))
             .font(Font.system(.body).bold())
             
-            Text("\(cartViewModel.cardDishData[CartModel(dishTitle: dish.dishTitle)]?.count ?? 0)")
-                .font(.system(.title2, design: .rounded))
+//            Text("\(cartViewModel.cartDishData[cartViewModel.cartDishData.firstIndex(where: { $0.dishTitle == dish.dishTitle })!].count)")
+//                .font(.system(.title2, design: .rounded))
 
             Button(action: {
-                cartViewModel.addToCartPressed(dish: dish, price: price)
+                cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: true)
             }) {
                 Image(systemName: "plus")
             }

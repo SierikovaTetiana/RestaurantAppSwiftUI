@@ -10,6 +10,7 @@ import SwiftUI
 struct MenuTableView: View {
     
     @ObservedObject var mainViewModel: MenuViewModel
+    @ObservedObject var cartViewModel: CartViewModel
     @State private var expanded: Set<String> = []
     
     var body: some View {
@@ -84,7 +85,7 @@ struct MenuTableView: View {
                         .font(.system(.title, design: .rounded))
                         .bold()
                         .foregroundColor(Color("darkGreen"))
-                    CartButton(mainViewModel: mainViewModel, dish: dish, price: dish.price)
+                    CartButton(cartViewModel: cartViewModel, mainViewModel: mainViewModel, dish: dish, price: dish.price)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
