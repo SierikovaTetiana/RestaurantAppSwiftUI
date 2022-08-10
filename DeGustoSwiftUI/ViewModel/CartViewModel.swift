@@ -11,7 +11,7 @@ import Firebase
 class CartViewModel: ObservableObject {
     
     @Published var cartDishData = [CartModel]()
-    //    @Published var totalCart = TotalCart()
+    @Published var totalCart = TotalCart()
     
     func fetchUserCart(menu: [SectionData]) {
         let userUid = UserAutorization.userAutorization.userUid
@@ -27,6 +27,7 @@ class CartViewModel: ObservableObject {
                     }
                 }
             }
+            self.countTotalCart()
         }
     }
     
@@ -50,6 +51,7 @@ class CartViewModel: ObservableObject {
             }
         }
         updateCountDataInFirebase(dish: dish, count: count)
+        countTotalCart()
     }
     
     func updateCountDataInFirebase(dish: DishData, count: Int) {
@@ -70,5 +72,15 @@ class CartViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    func countTotalCart() {
+        var totalPieces = 0
+        var totalPrice = 0
+        for item in cartDishData {
+            totalPrice += item.price * item.count
+            totalPieces += item.count
+        }
+        totalCart = TotalCart(totalPrice: totalPrice, totalPieces: totalPieces, dishes: cartDishData)
     }
 }

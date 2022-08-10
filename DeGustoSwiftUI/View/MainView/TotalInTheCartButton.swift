@@ -20,7 +20,7 @@ struct TotalInTheCartButton: View {
                 Rectangle()
                     .foregroundColor(Color("darkRed").opacity(0.8))
                     .frame(width: screenWidth, height: 50)
-                Text("У кошику \(cartViewModel.cartDishData.count) товар")
+                Text("У кошику \(cartViewModel.totalCart.totalPieces) товар на суму \(cartViewModel.totalCart.totalPrice) грн.")
             }
         }
         .foregroundColor(.white)
