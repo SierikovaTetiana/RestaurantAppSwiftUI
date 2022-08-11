@@ -12,53 +12,18 @@ struct LoginView: View {
     
     var body: some View {
         GeometryReader { geometry in
-        VStack {
-            Image("logo")
-                .padding(.top)
-            Spacer()
-            VStack(alignment: .leading) {
-                TextField("Адреса електроної пошти", text: $text)
-                    .padding(.bottom)
-                    .textFieldStyle(OvalTextFieldStyle())
-                
-                TextField("Пароль", text: $text)
+            VStack {
+                Image("logo")
                     .padding(.top)
-                    .textFieldStyle(OvalTextFieldStyle())
-            }.padding()
-            
-            Button {
-                print("pressed go to account")
-            } label: {
-                Text("ВХІД")
-                    .foregroundColor(Color("darkGreen"))
-                    .font(.largeTitle)
+                Spacer()
+                textFields
+                logInAndRememberPasswordButtons
+                Spacer()
+                continueWithFacebook
+                Spacer()
+                createNewAccount
+                
             }
-            Button {
-                print("pressed remember password")
-            } label: {
-                Text("Нагадати пароль")
-                    .foregroundColor(.gray)
-                    .font(.title3)
-            }.padding(.top)
-            Spacer()
-            Button {
-                print("continue with facebook")
-            } label: {
-                Image("facebook")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 60, alignment: .center)
-            }.padding()
-            Spacer()
-            Button {
-                print("pressed create new account")
-            } label: {
-                Text("Створити новий акаунт")
-                    .foregroundColor(Color("darkGreen"))
-                    .font(.title)
-            }.padding(.top)
-            
-        }
         }
     }
 }
@@ -76,5 +41,60 @@ struct OvalTextFieldStyle: TextFieldStyle {
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView()
+    }
+}
+
+extension LoginView {
+    
+    var textFields: some View {
+        VStack(alignment: .leading) {
+            TextField("Адреса електроної пошти", text: $text)
+                .padding(.bottom)
+                .textFieldStyle(OvalTextFieldStyle())
+            
+            TextField("Пароль", text: $text)
+                .padding(.top)
+                .textFieldStyle(OvalTextFieldStyle())
+        }.padding()
+    }
+    
+    var logInAndRememberPasswordButtons: some View {
+        VStack {
+            Button {
+                print("pressed go to account")
+            } label: {
+                Text("ВХІД")
+                    .foregroundColor(Color("darkGreen"))
+                    .font(.largeTitle)
+            }
+            Button {
+                print("pressed remember password")
+            } label: {
+                Text("Нагадати пароль")
+                    .foregroundColor(.gray)
+                    .font(.title3)
+            }.padding(.top)
+        }
+    }
+    
+    var continueWithFacebook: some View {
+        Button {
+            print("continue with facebook")
+        } label: {
+            Image("continueWithFacebook")
+                .resizable()
+                .scaledToFit()
+                .frame(height: 60, alignment: .center)
+        }.padding()
+    }
+    
+    var createNewAccount: some View {
+        Button {
+            print("pressed create new account")
+        } label: {
+            Text("Створити новий акаунт")
+                .foregroundColor(Color("darkGreen"))
+                .font(.title)
+        }.padding(.top)
     }
 }
