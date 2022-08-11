@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class CartViewModel: ObservableObject {
+@MainActor final class CartViewModel: ObservableObject {
     
     @Published var cartDishData = [CartModel]()
     @Published var totalCart = TotalCart()
@@ -54,7 +54,7 @@ class CartViewModel: ObservableObject {
         countTotalCart()
     }
     
-    func updateCountDataInFirebase(dish: DishData, count: Int) {
+    private func updateCountDataInFirebase(dish: DishData, count: Int) {
         let userUid = UserAutorization.userAutorization.userUid
         lazy var docRef = Firestore.firestore().collection("users").document(userUid)
         if count != 0 {
@@ -74,7 +74,7 @@ class CartViewModel: ObservableObject {
         }
     }
     
-    func countTotalCart() {
+    private func countTotalCart() {
         var totalPieces = 0
         var totalPrice = 0
         for item in cartDishData {

@@ -8,12 +8,14 @@
 import Foundation
 import Firebase
 
-class MenuViewModel: ObservableObject {
+@MainActor final class MenuViewModel: ObservableObject {
     
     @Published var menu = [SectionData]()
+    @Published var isLoading = false
     let faveSection = "Улюблене"
     
     func fetchMenu(completion: @escaping () -> ()) {
+        isLoading = true
         Database.database().reference().child("menu").observe(.value, with: { snapshot in
             if !snapshot.exists() { return }
             guard let menuDict : Dictionary = snapshot.value as? Dictionary<String,Any> else { return }
@@ -38,6 +40,7 @@ class MenuViewModel: ObservableObject {
                         dishData = dishData.sorted(by: { $0.dishTitle < $1.dishTitle })
                     }
                 }
+                self.isLoading = false
                 self.menu.append(SectionData(id: UUID(), open: false, data: dishData, title: "\(sectionDishTitleKey)", sectionImgName: imageName, sectionImage: nil, order: order))
                 self.menu = self.menu.sorted(by: { $0.order < $1.order })
             }

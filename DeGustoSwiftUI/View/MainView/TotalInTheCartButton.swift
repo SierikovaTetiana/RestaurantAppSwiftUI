@@ -10,7 +10,7 @@ import SwiftUI
 struct TotalInTheCartButton: View {
     
     let screenWidth: CGFloat
-    @ObservedObject var cartViewModel: CartViewModel
+    @StateObject var cartViewModel: CartViewModel
     
     var body: some View {
         Button(action: {

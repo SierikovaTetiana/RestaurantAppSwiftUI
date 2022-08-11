@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var mainViewModel = MenuViewModel()
-    @ObservedObject var sliderImagesViewModel = SliderImagesViewModel()
-    @ObservedObject var userAutorization = UserAutorization()
-    @ObservedObject var cartViewModel = CartViewModel()
+    @StateObject var mainViewModel = MenuViewModel()
+    @StateObject var sliderImagesViewModel = SliderImagesViewModel()
+    @StateObject var userAutorization = UserAutorization()
+    @StateObject var cartViewModel = CartViewModel()
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,8 +21,12 @@ struct ContentView: View {
                     TabView {
                         ScrollView {
                             VStack {
-                                MenuScrollView(sliderImagesViewModel: sliderImagesViewModel, screenWidth: geometry.size.width)
-                                MenuTableView(mainViewModel: mainViewModel, cartViewModel: cartViewModel)
+                                if mainViewModel.isLoading == false {
+                                    MenuScrollView(sliderImagesViewModel: sliderImagesViewModel, screenWidth: geometry.size.width)
+                                    MenuTableView(mainViewModel: mainViewModel, cartViewModel: cartViewModel)
+                                } else {
+                                    ProgressView()
+                                }
                             }
                         }
                         .overlay(

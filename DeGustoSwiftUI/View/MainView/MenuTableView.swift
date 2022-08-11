@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MenuTableView: View {
     
-    @ObservedObject var mainViewModel: MenuViewModel
-    @ObservedObject var cartViewModel: CartViewModel
+    @StateObject var mainViewModel: MenuViewModel
+    @StateObject var cartViewModel: CartViewModel
     @State private var expanded: Set<String> = []
     
     var body: some View {

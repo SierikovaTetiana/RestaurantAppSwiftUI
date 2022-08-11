@@ -9,8 +9,8 @@ import SwiftUI
 
 struct CartButton: View {
     
-    @ObservedObject var cartViewModel: CartViewModel
-    @ObservedObject var mainViewModel: MenuViewModel
+    @StateObject var cartViewModel: CartViewModel
+    @StateObject var mainViewModel: MenuViewModel
     let dish: DishData
     let price: Int
     

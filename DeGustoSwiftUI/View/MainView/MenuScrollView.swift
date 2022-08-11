@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuScrollView: View {
     
-    @ObservedObject var sliderImagesViewModel: SliderImagesViewModel
+    @StateObject var sliderImagesViewModel: SliderImagesViewModel
     @State private var currentIndex: Int = 0
     @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     let screenWidth: CGFloat
@@ -19,7 +19,7 @@ struct MenuScrollView: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack() {
                     ForEach(0..<sliderImagesViewModel.sliderImages.count, id: \.self) { index in
-                        ImageView(sliderImages: sliderImagesViewModel.sliderImages[index], imageWidth: screenWidth)
+                        setImage(sliderImages: sliderImagesViewModel.sliderImages[index], imageWidth: screenWidth)
                             .id(index)
                     }
                 }
@@ -34,13 +34,9 @@ struct MenuScrollView: View {
             }
         }
     }
-}
-
-struct ImageView: View {
-    let sliderImages: SliderImage
-    let imageWidth: CGFloat
-    var body: some View {
-        Image(uiImage: sliderImages.image)
+    
+    func setImage(sliderImages: SliderImage, imageWidth: CGFloat) -> some View {
+        return Image(uiImage: sliderImages.image)
             .resizable()
             .aspectRatio(contentMode: .fit)
             .frame(width: imageWidth, height: 200)

@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class UserAutorization: ObservableObject {
+@MainActor final class UserAutorization: ObservableObject {
     
     static let userAutorization = UserAutorization()
     @Published var userUid = String()

@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-class SliderImagesViewModel: ObservableObject {
+@MainActor final class SliderImagesViewModel: ObservableObject {
     
     @Published var sliderImages = [SliderImage]()
     
