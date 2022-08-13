@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CheckOutView: View {
     
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State private var takeAwayOrDelivery = 0
     @State var text = ""
     @State var readyToNow = true
@@ -23,6 +24,8 @@ struct CheckOutView: View {
             Spacer()
             bottomText
             sendOrder
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading: backNavButton)
         }
     }
 }
@@ -137,5 +140,19 @@ extension CheckOutView {
             }
         }
         .foregroundColor(.white)
+    }
+    
+    var backNavButton: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack {
+                Image(systemName: "arrow.left")
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color("darkGreen"))
+                Text("Змінити замовлення")
+                    .foregroundColor(Color("darkGreen"))
+            }
+        }
     }
 }

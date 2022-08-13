@@ -11,15 +11,25 @@ struct ProfileView: View {
     @State var text = ""
     
     var body: some View {
-        VStack {
-            Spacer()
-            headerView
-            Spacer()
-            rowsView
-            logOut
-            Spacer()
-            socialButtons
-            
+        NavigationView {
+            VStack {
+                Spacer()
+                headerView
+                Spacer()
+                rowsView
+                logOut
+                Spacer()
+                socialButtons
+            }
+            .navigationTitle("Профіль")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarItems(trailing: Button(action: {
+                // do something
+            }) {
+                Image(systemName: "cart")
+                    .foregroundColor(Color("darkGreen"))
+                    .imageScale(.large)
+            })
         }
     }
 }

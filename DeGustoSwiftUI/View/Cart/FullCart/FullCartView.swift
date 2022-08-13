@@ -16,17 +16,17 @@ struct FullCartView: View {
                 defaultCell
                 Spacer()
                 bottomView
-                Button(action: {
-                    print("Go to the menu")
-                }) {
+                NavigationLink {
+                    CheckOutView()
+                } label: {
                     ZStack {
                         Rectangle()
                             .foregroundColor(Color("darkRed").opacity(0.8))
                             .frame(width: geometry.size.width, height: 50)
                         Text("Оформити замовлення")
+                            .foregroundColor(.white)
                     }
                 }
-                .foregroundColor(.white)
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: backNavButton)

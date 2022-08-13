@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CreateAccountView: View {
+    
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     @State var text = ""
     
     var body: some View {
@@ -22,6 +24,8 @@ struct CreateAccountView: View {
             Spacer()
             policyRules
             Spacer()
+                .navigationBarBackButtonHidden(true)
+                .navigationBarItems(leading: backNavButton)
         }
     }
 }
@@ -64,5 +68,19 @@ extension CreateAccountView {
             .font(.system(.callout, design: .rounded))
             .multilineTextAlignment(.center)
             .padding()
+    }
+    
+    var backNavButton: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack {
+                Image(systemName: "arrow.left")
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color("darkGreen"))
+                Text("Меню")
+                    .foregroundColor(Color("darkGreen"))
+            }
+        }
     }
 }

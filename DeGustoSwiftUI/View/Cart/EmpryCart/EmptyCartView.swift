@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct EmptyCartView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -16,7 +18,7 @@ struct EmptyCartView: View {
                 messageView
                 Spacer()
                 Button(action: {
-                    print("Go to the menu")
+                    self.presentationMode.wrappedValue.dismiss()
                 }) {
                     ZStack {
                         Rectangle()
@@ -27,6 +29,8 @@ struct EmptyCartView: View {
                 }
                 .foregroundColor(.white)
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: backNavButton)
         }
     }
 }
@@ -53,6 +57,20 @@ extension EmptyCartView {
             Text("Додайте ваші перші товари у кошик")
                 .font(.title2)
                 .foregroundColor(Color.gray)
+        }
+    }
+    
+    var backNavButton: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack {
+                Image(systemName: "arrow.left")
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color("darkGreen"))
+                Text("Меню")
+                    .foregroundColor(Color("darkGreen"))
+            }
         }
     }
 }
