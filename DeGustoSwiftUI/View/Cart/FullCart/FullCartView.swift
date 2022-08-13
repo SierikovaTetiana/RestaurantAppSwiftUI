@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct FullCartView: View {
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -26,6 +28,8 @@ struct FullCartView: View {
                 }
                 .foregroundColor(.white)
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: backNavButton)
         }
     }
 }
@@ -67,7 +71,7 @@ extension FullCartView {
                     Divider()
                 }
             }
-        }
+        }.padding(.top)
     }
     
     var cell: some View {
@@ -114,5 +118,19 @@ extension FullCartView {
             }
             Spacer()
         }.padding()
+    }
+    
+    var backNavButton: some View {
+        Button(action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }) {
+            HStack {
+                Image(systemName: "arrow.left")
+                    .aspectRatio(contentMode: .fit)
+                    .foregroundColor(Color("darkGreen"))
+                Text("Меню")
+                    .foregroundColor(Color("darkGreen"))
+            }
+        }
     }
 }
