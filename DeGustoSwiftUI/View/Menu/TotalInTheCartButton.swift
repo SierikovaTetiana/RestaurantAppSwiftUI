@@ -16,14 +16,10 @@ struct TotalInTheCartButton: View {
         NavigationLink(destination: {
             FullCartView()
         }) {
-            ZStack {
-                Rectangle()
-                    .foregroundColor(Color("darkRed").opacity(0.8))
-                    .frame(width: screenWidth, height: 50)
-                Text("У кошику \(cartViewModel.totalCart.totalPieces) товар на суму \(cartViewModel.totalCart.totalPrice) грн.")
-            }
-            .foregroundColor(.white)
+            Text("У кошику \(cartViewModel.totalCart.totalPieces) товар на суму \(cartViewModel.totalCart.totalPrice) грн.")
+                .foregroundColor(.white)
+                .frame(width: screenWidth, height: 50)
+                .background(Color("darkRed").opacity(0.8))
         }
     }
-    
 }

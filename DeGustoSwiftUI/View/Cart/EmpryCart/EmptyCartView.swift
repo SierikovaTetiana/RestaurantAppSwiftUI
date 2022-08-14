@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EmptyCartView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @Binding var tabSelection: Int
     
     var body: some View {
         GeometryReader { geometry in
@@ -18,16 +19,13 @@ struct EmptyCartView: View {
                 messageView
                 Spacer()
                 Button(action: {
-                    self.presentationMode.wrappedValue.dismiss()
+                    self.tabSelection = 1
                 }) {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(Color.gray.opacity(0.8))
-                            .frame(width: geometry.size.width, height: 50)
-                        Text("Перейти у меню")
-                    }
+                    Text("Перейти у меню")
+                        .foregroundColor(.white)
+                        .frame(width: geometry.size.width, height: 50)
+                        .background(Color.gray.opacity(0.8))
                 }
-                .foregroundColor(.white)
             }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: backNavButton)
@@ -37,7 +35,7 @@ struct EmptyCartView: View {
 
 struct EmptyCartView_Previews: PreviewProvider {
     static var previews: some View {
-        EmptyCartView()
+        EmptyCartView(tabSelection: .constant(2))
             .previewInterfaceOrientation(.portrait)
     }
 }

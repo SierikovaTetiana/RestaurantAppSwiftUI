@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var text = ""
+    @StateObject var cartViewModel: CartViewModel
+    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
@@ -23,9 +25,14 @@ struct ProfileView: View {
             }
             .navigationTitle("Профіль")
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button(action: {
-                // do something
-            }) {
+            .navigationBarItems(
+                trailing: NavigationLink {
+                if cartViewModel.cartDishData.isEmpty {
+                    EmptyCartView(tabSelection: $tabSelection)
+                } else {
+                    FullCartView()
+                }
+            } label: {
                 Image(systemName: "cart")
                     .foregroundColor(Color("darkGreen"))
                     .imageScale(.large)
@@ -36,7 +43,7 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        ProfileView(cartViewModel: CartViewModel(), tabSelection: .constant(1))
     }
 }
 

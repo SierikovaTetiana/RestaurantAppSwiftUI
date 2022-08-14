@@ -21,8 +21,10 @@ struct FaveButton: View {
             Image(systemName: "heart.circle")
                 .foregroundColor(dish.favorite ? .red : .gray)
                 .font(.system(size: 35))
-        } .background(Color.white)
+        }
+        .background(Color.white)
         .clipShape(Circle())
         .buttonStyle(BorderlessButtonStyle())
+        .offset(x: 10, y: -10)
     }
 }

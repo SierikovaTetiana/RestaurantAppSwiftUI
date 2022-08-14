@@ -11,11 +11,13 @@ import Firebase
 @MainActor final class UserAutorization: ObservableObject {
     
     static let userAutorization = UserAutorization()
-    @Published var userUid = String()
+    var userUid = String()
+    var isAnonymous = true
     
     func autorizeUser(completion:@escaping (String) -> ()) {
         if Auth.auth().currentUser != nil {
             userUid = Auth.auth().currentUser!.uid
+            isAnonymous = Auth.auth().currentUser!.isAnonymous
             completion(self.userUid)
         } else {
             Auth.auth().signInAnonymously { authResult, error in
@@ -25,6 +27,7 @@ import Firebase
                     guard let user = authResult?.user else { return }
                     self.userUid = user.uid
                     Firestore.firestore().collection("users").document(self.userUid).setData([ "favorites": [] ])
+                    self.isAnonymous = ((Auth.auth().currentUser?.isAnonymous) != nil)
                     completion(self.userUid)
                 }
             }

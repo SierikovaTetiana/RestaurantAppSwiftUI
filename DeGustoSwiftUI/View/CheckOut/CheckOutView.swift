@@ -132,14 +132,15 @@ extension CheckOutView {
         Button(action: {
             print("Go to the menu")
         }) {
-            ZStack {
-                RoundedRectangle(cornerRadius: 20, style: .circular)
-                    .foregroundColor(Color("darkRed"))
-                    .frame(width: 250, height: 50)
-                Text("Відправити замовлення")
-            }
+            Text("Відправити замовлення")
+                .foregroundColor(.white)
+                .font(.headline)
+                .frame(width: 250, height: 50)
+                .background(Color("darkRed"))
+                .clipShape(Capsule())
         }
         .foregroundColor(.white)
+        .shadow(color: Color.gray.opacity(0.5), radius: 10, x: 0, y: 0)
     }
     
     var backNavButton: some View {

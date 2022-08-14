@@ -22,19 +22,8 @@ struct LoginView: View {
                 continueWithFacebook
                 Spacer()
                 createNewAccount
-                
             }
         }
-    }
-}
-
-struct OvalTextFieldStyle: TextFieldStyle {
-    func _body(configuration: TextField<Self._Label>) -> some View {
-        configuration
-            .padding(10)
-            .background(LinearGradient(gradient: Gradient(colors: [Color.white, Color.white, Color.green]), startPoint: .topLeading, endPoint: .bottomTrailing))
-            .cornerRadius(20)
-            .shadow(color: .gray, radius: 10)
     }
 }
 
@@ -94,7 +83,7 @@ extension LoginView {
         } label: {
             Text("Створити новий акаунт")
                 .foregroundColor(Color("darkGreen"))
-                .font(.title)
-        }.padding(.top)
+                .font(.title2)
+        }.padding()
     }
 }

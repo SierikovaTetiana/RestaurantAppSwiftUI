@@ -10,6 +10,8 @@ import MapKit
 
 struct MapView: View {
     @StateObject var mapViewModel = MapViewModel()
+    @StateObject var cartViewModel: CartViewModel
+    @Binding var tabSelection: Int
     
     var body: some View {
         NavigationView {
@@ -28,19 +30,37 @@ struct MapView: View {
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Button(action: {
-                // do something
-            }) {
-                Image(systemName: "person")
-                    .imageScale(.large)
-                    .foregroundColor(Color("darkGreen"))
-            }, trailing: Button(action: {
-                // do something
-            }) {
-                Image(systemName: "cart")
-                    .foregroundColor(Color("darkGreen"))
-                    .imageScale(.large)
-            })
+            .navigationBarItems(
+                leading:
+                    NavigationLink {
+                        if UserAutorization.userAutorization.isAnonymous {
+                            LoginView()
+                        } else {
+                            ProfileView(cartViewModel: cartViewModel, tabSelection: $tabSelection)
+                        }
+                    } label: {
+                        Image(systemName: "person")
+                            .imageScale(.large)
+                            .foregroundColor(Color("darkGreen"))
+                    },
+                trailing:
+                    NavigationLink {
+                        if cartViewModel.cartDishData.isEmpty {
+                            EmptyCartView(tabSelection: $tabSelection)
+                        } else {
+                            FullCartView()
+                        }
+                    } label: {
+                        Image(systemName: "cart")
+                            .foregroundColor(Color("darkGreen"))
+                            .imageScale(.large)
+                    })
         }
+    }
+}
+
+struct MapView_Previews: PreviewProvider {
+    static var previews: some View {
+        MapView(cartViewModel: CartViewModel(), tabSelection: .constant(2))
     }
 }

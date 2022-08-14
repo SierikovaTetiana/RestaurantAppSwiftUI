@@ -9,10 +9,11 @@ import SwiftUI
 
 struct MenuView: View {
     
-    @StateObject var mainViewModel = MenuViewModel()
-    @StateObject var sliderImagesViewModel = SliderImagesViewModel()
-    @StateObject var userAutorization = UserAutorization()
-    @StateObject var cartViewModel = CartViewModel()
+    @StateObject var mainViewModel: MenuViewModel
+    @StateObject var sliderImagesViewModel: SliderImagesViewModel
+    @StateObject var userAutorization: UserAutorization
+    @StateObject var cartViewModel: CartViewModel
+    @Binding var tabSelection: Int
     
     var body: some View {
         GeometryReader { geometry in
@@ -41,37 +42,38 @@ struct MenuView: View {
                     }
                 }
                 .navigationBarTitleDisplayMode(.inline)
-                .navigationBarItems(leading: Button(action: {
-                    // do something
-                }) {
-                    Image(systemName: "person")
-                        .imageScale(.large)
-                        .foregroundColor(Color("darkGreen"))
-                }, trailing: Button(action: {
-                    // do something
-                }) {
-                    Image(systemName: "cart")
-                        .foregroundColor(Color("darkGreen"))
-                        .imageScale(.large)
-                })
+                .navigationBarItems(
+                    leading:
+                        NavigationLink {
+                            if UserAutorization.userAutorization.isAnonymous {
+                                LoginView()
+                            } else {
+                                ProfileView(cartViewModel: cartViewModel, tabSelection: $tabSelection)
+                            }
+                        } label: {
+                            Image(systemName: "person")
+                                .imageScale(.large)
+                                .foregroundColor(Color("darkGreen"))
+                        },
+                    trailing:
+                        NavigationLink {
+                            if cartViewModel.cartDishData.isEmpty {
+                                EmptyCartView(tabSelection: $tabSelection)
+                            } else {
+                                FullCartView()
+                            }
+                        } label: {
+                            Image(systemName: "cart")
+                                .foregroundColor(Color("darkGreen"))
+                                .imageScale(.large)
+                        })
             }
-        }.onAppear(perform: {
-            
-            self.sliderImagesViewModel.fetchSliderImages()
-            self.mainViewModel.fetchMenu {
-                UserAutorization.userAutorization.autorizeUser {_ in
-                    cartViewModel.fetchUserCart(menu: mainViewModel.menu)
-                }
-                self.mainViewModel.fetchUserFavorites {
-                    self.mainViewModel.fetchSectionMenuImage()
-                }
-            }
-        })
+        }
     }
 }
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView()
+        MenuView(mainViewModel: MenuViewModel(), sliderImagesViewModel: SliderImagesViewModel(), userAutorization: UserAutorization(), cartViewModel: CartViewModel(), tabSelection: .constant(1))
     }
 }

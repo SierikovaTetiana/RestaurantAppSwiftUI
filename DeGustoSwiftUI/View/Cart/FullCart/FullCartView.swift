@@ -19,13 +19,10 @@ struct FullCartView: View {
                 NavigationLink {
                     CheckOutView()
                 } label: {
-                    ZStack {
-                        Rectangle()
-                            .foregroundColor(Color("darkRed").opacity(0.8))
-                            .frame(width: geometry.size.width, height: 50)
-                        Text("Оформити замовлення")
-                            .foregroundColor(.white)
-                    }
+                    Text("Оформити замовлення")
+                        .foregroundColor(.white)
+                        .frame(width: geometry.size.width, height: 50)
+                        .background(Color("darkRed").opacity(0.8))
                 }
             }
             .navigationBarBackButtonHidden(true)
@@ -128,7 +125,7 @@ extension FullCartView {
                 Image(systemName: "arrow.left")
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(Color("darkGreen"))
-                Text("Меню")
+                Text("Назад")
                     .foregroundColor(Color("darkGreen"))
             }
         }
