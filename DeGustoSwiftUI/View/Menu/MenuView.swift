@@ -9,10 +9,10 @@ import SwiftUI
 
 struct MenuView: View {
     
-    @StateObject var mainViewModel: MenuViewModel
-    @StateObject var sliderImagesViewModel: SliderImagesViewModel
-    @StateObject var userAutorization: UserAutorization
-    @StateObject var cartViewModel: CartViewModel
+    @EnvironmentObject var mainViewModel: MenuViewModel
+    @EnvironmentObject var sliderImagesViewModel: SliderImagesViewModel
+    @EnvironmentObject var userAutorization: UserAutorization
+    @EnvironmentObject var cartViewModel: CartViewModel
     @Binding var tabSelection: Int
     
     var body: some View {
@@ -22,8 +22,8 @@ struct MenuView: View {
                     ScrollView {
                         VStack {
                             if mainViewModel.isLoading == false {
-                                MenuScrollView(sliderImagesViewModel: sliderImagesViewModel, screenWidth: geometry.size.width)
-                                MenuTableView(mainViewModel: mainViewModel, cartViewModel: cartViewModel)
+                                MenuScrollView(screenWidth: geometry.size.width)
+                                MenuTableView()
                             } else {
                                 ProgressView()
                             }
@@ -33,7 +33,7 @@ struct MenuView: View {
                         VStack {
                             Spacer()
                             if !cartViewModel.cartDishData.isEmpty {
-                                TotalInTheCartButton(screenWidth: geometry.size.width, cartViewModel: cartViewModel)
+                                TotalInTheCartButton(screenWidth: geometry.size.width)
                             }})
                 }
                 .toolbar {
@@ -45,10 +45,11 @@ struct MenuView: View {
                 .navigationBarItems(
                     leading:
                         NavigationLink {
-                            if UserAutorization.userAutorization.isAnonymous {
-                                LoginView()
+                            if userAutorization.isAnonymous {
+//                            if UserAutorization.userAutorization.isAnonymous {
+                                LoginView(tabSelection: $tabSelection)
                             } else {
-                                ProfileView(cartViewModel: cartViewModel, tabSelection: $tabSelection)
+                                ProfileView(tabSelection: $tabSelection)
                             }
                         } label: {
                             Image(systemName: "person")
@@ -67,13 +68,13 @@ struct MenuView: View {
                                 .foregroundColor(Color("darkGreen"))
                                 .imageScale(.large)
                         })
-            }
+            }.accentColor(Color("darkGreen"))
         }
     }
 }
 
 struct MenuView_Previews: PreviewProvider {
     static var previews: some View {
-        MenuView(mainViewModel: MenuViewModel(), sliderImagesViewModel: SliderImagesViewModel(), userAutorization: UserAutorization(), cartViewModel: CartViewModel(), tabSelection: .constant(1))
+        MenuView(tabSelection: .constant(1))
     }
 }

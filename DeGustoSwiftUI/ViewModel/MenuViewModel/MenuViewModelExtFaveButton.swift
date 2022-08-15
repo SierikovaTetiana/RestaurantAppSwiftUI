@@ -16,16 +16,17 @@ extension MenuViewModel {
         docRef.getDocument { (document, error) in
             guard let document = document, document.exists else { return }
             guard let firstData = document.data() else { return }
-            guard let favorites = firstData["favorites"] as? Array<String> else { return }
-            for item in favorites {
-                for index in self.menu.indices {
-                    if let indexOfDish = self.menu[index].data.firstIndex(where: { $0.dishTitle == item }) {
-                        self.menu[index].data[indexOfDish].favorite = true
-                        self.menu[index].data[indexOfDish].parentSectionTitleForFave = self.menu[index].title
-                        self.addDishToFaveSection(sectionIndex: index, dishIndex: indexOfDish)
+            if let favorites = firstData["favorites"] as? Array<String> {
+                for item in favorites {
+                    for index in self.menu.indices {
+                        if let indexOfDish = self.menu[index].data.firstIndex(where: { $0.dishTitle == item }) {
+                            self.menu[index].data[indexOfDish].favorite = true
+                            self.menu[index].data[indexOfDish].parentSectionTitleForFave = self.menu[index].title
+                            self.addDishToFaveSection(sectionIndex: index, dishIndex: indexOfDish)
+                        }
                     }
+                    self.menu = self.menu.sorted(by: { $0.order < $1.order })
                 }
-                self.menu = self.menu.sorted(by: { $0.order < $1.order })
             }
             completion()
         }

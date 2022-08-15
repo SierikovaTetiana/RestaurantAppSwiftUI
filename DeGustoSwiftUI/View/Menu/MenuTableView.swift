@@ -9,8 +9,8 @@ import SwiftUI
 
 struct MenuTableView: View {
     
-    @StateObject var mainViewModel: MenuViewModel
-    @StateObject var cartViewModel: CartViewModel
+    @EnvironmentObject var mainViewModel: MenuViewModel
+    @EnvironmentObject var cartViewModel: CartViewModel
     @State private var expanded: Set<String> = []
     
     var body: some View {
@@ -65,7 +65,7 @@ struct MenuTableView: View {
                         .font(.system(.title, design: .rounded))
                         .bold()
                         .foregroundColor(Color("darkGreen"))
-                    CartButton(cartViewModel: cartViewModel, mainViewModel: mainViewModel, dish: dish, price: dish.price)
+                    CartButton(dish: dish, price: dish.price)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
@@ -78,7 +78,7 @@ struct MenuTableView: View {
             .scaledToFit()
             .overlay(
                 ZStack {
-                    FaveButton(mainViewModel: mainViewModel, dish: dish, sectionIndex: mainViewModel.menu.firstIndex(of: item))
+                    FaveButton(dish: dish, sectionIndex: mainViewModel.menu.firstIndex(of: item))
                 }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
             )
     }

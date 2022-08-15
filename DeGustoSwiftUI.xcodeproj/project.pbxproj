@@ -302,10 +302,18 @@
 				6027053428A52EDF00AB0545 /* ProfileViewModel */,
 				601DC91928A3B9E700DFBF6F /* MapViewModel */,
 				601DC91828A3B9D900DFBF6F /* MenuViewModel */,
-				6011140E289D3ADA001B5E25 /* UserAutorization.swift */,
+				60ABEEF828AAA7340094CFFE /* AuthViewModel */,
 				604BDF4128A10841008DE572 /* CartViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		60ABEEF828AAA7340094CFFE /* AuthViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6011140E289D3ADA001B5E25 /* UserAutorization.swift */,
+			);
+			path = AuthViewModel;
 			sourceTree = "<group>";
 		};
 		60D84A71289A64FC0070D042 /* Menu */ = {

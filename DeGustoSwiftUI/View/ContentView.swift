@@ -16,20 +16,24 @@ struct ContentView: View {
     
     var body: some View {
         TabView(selection: $tabSelection) {
-            MenuView(mainViewModel: mainViewModel, sliderImagesViewModel: sliderImagesViewModel, userAutorization: userAutorization, cartViewModel: cartViewModel, tabSelection: $tabSelection)
+            MenuView(tabSelection: $tabSelection)
                 .tabItem {
                     Image("menuButton").resizable().aspectRatio(contentMode: .fit)
                     Text("Головна")
                 }
                 .tag(1)
             
-            MapView(cartViewModel: cartViewModel, tabSelection: $tabSelection)
+            MapView(tabSelection: $tabSelection)
                 .tabItem {
                     Image(systemName: "map")
                     Text("Ми на мапі")
                 }
                 .tag(2)
         }
+        .environmentObject(mainViewModel)
+        .environmentObject(sliderImagesViewModel)
+        .environmentObject(userAutorization)
+        .environmentObject(cartViewModel)
         .onAppear(perform: {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
@@ -40,9 +44,9 @@ struct ContentView: View {
                 self.mainViewModel.fetchMenu {
                     UserAutorization.userAutorization.autorizeUser {_ in
                         cartViewModel.fetchUserCart(menu: mainViewModel.menu)
-                    }
-                    self.mainViewModel.fetchUserFavorites {
-                        self.mainViewModel.fetchSectionMenuImage()
+                        self.mainViewModel.fetchUserFavorites {
+                            self.mainViewModel.fetchSectionMenuImage()
+                        }
                     }
                 }
             }

@@ -10,7 +10,10 @@ import SwiftUI
 struct CreateAccountView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    @State var text = ""
+    @EnvironmentObject var userAutorization: UserAutorization
+    @State var email = ""
+    @State var password = ""
+    @State var phone = ""
     
     var body: some View {
         VStack {
@@ -39,15 +42,15 @@ struct CreateAccountView_Previews: PreviewProvider {
 extension CreateAccountView {
     var textFields: some View {
         VStack(alignment: .leading) {
-            TextField("Адреса електроної пошти", text: $text)
+            TextField("Адреса електроної пошти", text: $email)
                 .padding(.bottom)
                 .textFieldStyle(OvalTextFieldStyle())
             
-            TextField("Пароль", text: $text)
+            TextField("Пароль", text: $password)
                 .padding(.top)
                 .textFieldStyle(OvalTextFieldStyle())
             
-            TextField("+380991234567", text: $text)
+            TextField("+380991234567", text: $phone)
                 .padding(.top)
                 .textFieldStyle(OvalTextFieldStyle())
         }.padding()
@@ -55,7 +58,7 @@ extension CreateAccountView {
     
     var registrationButton: some View {
         Button {
-            print("pressed registration")
+            userAutorization.createAccount(withEmail: email, password: password, phoneNum: phone)
         } label: {
             Text("Регістрація")
                 .foregroundColor(Color("darkGreen"))

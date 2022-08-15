@@ -8,7 +8,12 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State var text = ""
+    
+    @EnvironmentObject var userAutorization: UserAutorization
+    @Binding var tabSelection: Int
+    @State var email = ""
+    @State var password = ""
+    @State var isLinkActive = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,7 +34,7 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        LoginView(tabSelection: .constant(1))
     }
 }
 
@@ -37,11 +42,11 @@ extension LoginView {
     
     var textFields: some View {
         VStack(alignment: .leading) {
-            TextField("Адреса електроної пошти", text: $text)
+            TextField("Адреса електроної пошти", text: $email)
                 .padding(.bottom)
                 .textFieldStyle(OvalTextFieldStyle())
             
-            TextField("Пароль", text: $text)
+            TextField("Пароль", text: $password)
                 .padding(.top)
                 .textFieldStyle(OvalTextFieldStyle())
         }.padding()
@@ -49,12 +54,15 @@ extension LoginView {
     
     var logInAndRememberPasswordButtons: some View {
         VStack {
-            Button {
-                print("pressed go to account")
-            } label: {
-                Text("ВХІД")
-                    .foregroundColor(Color("darkGreen"))
-                    .font(.largeTitle)
+            NavigationLink(destination: ProfileView(tabSelection: $tabSelection), isActive: $isLinkActive) {
+                Button(action: {
+                    self.isLinkActive = true
+                    userAutorization.login(withEmail: email, password: password)
+                }) {
+                    Text("ВХІД")
+                        .foregroundColor(Color("darkGreen"))
+                        .font(.largeTitle)
+                }
             }
             Button {
                 print("pressed remember password")
@@ -78,8 +86,8 @@ extension LoginView {
     }
     
     var createNewAccount: some View {
-        Button {
-            print("pressed create new account")
+        NavigationLink {
+            CreateAccountView()
         } label: {
             Text("Створити новий акаунт")
                 .foregroundColor(Color("darkGreen"))

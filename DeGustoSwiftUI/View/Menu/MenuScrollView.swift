@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MenuScrollView: View {
     
-    @StateObject var sliderImagesViewModel: SliderImagesViewModel
+    @EnvironmentObject var sliderImagesViewModel: SliderImagesViewModel
     @State private var currentIndex: Int = 0
     @State private var timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     let screenWidth: CGFloat

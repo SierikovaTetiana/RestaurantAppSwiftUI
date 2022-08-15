@@ -10,7 +10,7 @@ import MapKit
 
 struct MapView: View {
     @StateObject var mapViewModel = MapViewModel()
-    @StateObject var cartViewModel: CartViewModel
+    @EnvironmentObject var cartViewModel: CartViewModel
     @Binding var tabSelection: Int
     
     var body: some View {
@@ -34,9 +34,9 @@ struct MapView: View {
                 leading:
                     NavigationLink {
                         if UserAutorization.userAutorization.isAnonymous {
-                            LoginView()
+                            LoginView(tabSelection: $tabSelection)
                         } else {
-                            ProfileView(cartViewModel: cartViewModel, tabSelection: $tabSelection)
+                            ProfileView(tabSelection: $tabSelection)
                         }
                     } label: {
                         Image(systemName: "person")
@@ -55,12 +55,12 @@ struct MapView: View {
                             .foregroundColor(Color("darkGreen"))
                             .imageScale(.large)
                     })
-        }
+        }.accentColor(Color("darkGreen"))
     }
 }
 
 struct MapView_Previews: PreviewProvider {
     static var previews: some View {
-        MapView(cartViewModel: CartViewModel(), tabSelection: .constant(2))
+        MapView(tabSelection: .constant(2))
     }
 }

@@ -9,24 +9,25 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var text = ""
-    @StateObject var cartViewModel: CartViewModel
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var cartViewModel: CartViewModel
+    @EnvironmentObject var userAutorization: UserAutorization
     @Binding var tabSelection: Int
     
     var body: some View {
-        NavigationView {
-            VStack {
-                Spacer()
-                headerView
-                Spacer()
-                rowsView
-                logOut
-                Spacer()
-                socialButtons
-            }
-            .navigationTitle("Профіль")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(
-                trailing: NavigationLink {
+        VStack {
+            Spacer()
+            headerView
+            Spacer()
+            rowsView
+            logOut
+            Spacer()
+            socialButtons
+        }
+        .navigationTitle("Профіль")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(
+            trailing: NavigationLink {
                 if cartViewModel.cartDishData.isEmpty {
                     EmptyCartView(tabSelection: $tabSelection)
                 } else {
@@ -37,13 +38,12 @@ struct ProfileView: View {
                     .foregroundColor(Color("darkGreen"))
                     .imageScale(.large)
             })
-        }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView(cartViewModel: CartViewModel(), tabSelection: .constant(1))
+        ProfileView(tabSelection: .constant(1))
     }
 }
 
@@ -79,12 +79,13 @@ extension ProfileView {
                 }.padding(.horizontal)
                 Divider()
             }
-        }
-        .padding(.bottom)
+        }.padding(.bottom)
     }
     
     var logOut: some View {
         Button {
+            userAutorization.logout()
+            presentationMode.wrappedValue.dismiss()
             print("pressed log out account")
         } label: {
             Text("Вийти з акаунту")
@@ -129,6 +130,6 @@ extension ProfileView {
                         .frame(height: 60, alignment: .center)
                 }
             }
-        }
+        }.padding()
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FaveButton: View {
     
-    @StateObject var mainViewModel: MenuViewModel
+    @EnvironmentObject var mainViewModel: MenuViewModel
     var dish: DishData
     var sectionIndex: Int?
     

@@ -10,7 +10,7 @@ import SwiftUI
 struct TotalInTheCartButton: View {
     
     let screenWidth: CGFloat
-    @StateObject var cartViewModel: CartViewModel
+    @EnvironmentObject var cartViewModel: CartViewModel
     
     var body: some View {
         NavigationLink(destination: {
