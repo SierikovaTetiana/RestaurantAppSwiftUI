@@ -13,6 +13,7 @@ import Firebase
     static let userAutorization = UserAutorization()
     var userUid = String()
     @Published var isAnonymous = true
+    @Published var forgotPasswordEmailWasSent = false
     
     func autorizeUser(completion:@escaping (String) -> ()) {
         if Auth.auth().currentUser != nil {
@@ -72,6 +73,17 @@ import Firebase
             isAnonymous = true
         } catch let signOutError as NSError {
             print("Error signing out: %@", signOutError)
+        }
+    }
+    
+    func forgotPassword(email: String) {
+        Auth.auth().sendPasswordReset(withEmail: email) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                self.forgotPasswordEmailWasSent = true
+                print("Email successfully sended")
+            }
         }
     }
 }

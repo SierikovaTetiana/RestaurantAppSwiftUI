@@ -12,22 +12,34 @@ struct LoginView: View {
     @EnvironmentObject var userAutorization: UserAutorization
     @Binding var tabSelection: Int
     @State var email = ""
+    @State var forgotPasswordEmail = ""
     @State var password = ""
     @State var isLinkActive = false
+    @State var showingAlertForgotPassword = false
     
     var body: some View {
         GeometryReader { geometry in
-            VStack {
-                Image("logo")
-                    .padding(.top)
-                Spacer()
-                textFields
-                logInAndRememberPasswordButtons
-                Spacer()
-                continueWithFacebook
-                Spacer()
-                createNewAccount
-            }
+            ZStack {
+                VStack {
+                    Image("logo")
+                        .padding(.top)
+                    Spacer()
+                    textFields
+                    logInAndRememberPasswordButtons
+                    Spacer()
+                    continueWithFacebook
+                    Spacer()
+                    createNewAccount
+                        .alert("Лист було надіслано на вашу електрону адресу. Будь ласка, перевірте", isPresented: $userAutorization.forgotPasswordEmailWasSent) {
+                            Button("Добре") { }
+                        }
+                }
+                .blur(radius: showingAlertForgotPassword ? 10 : 0)
+            }.textFieldAlert(isPresented: $showingAlertForgotPassword, title: "Ви дійсно хочете скинути пароль?", message: "Введіть адресу електроної пошти, будь ласка", text: $forgotPasswordEmail, placeholder: "email", action: { text in
+                if !text.isEmpty {
+                    userAutorization.forgotPassword(email: text)
+                }
+            })
         }
     }
 }
@@ -66,6 +78,7 @@ extension LoginView {
             }
             Button {
                 print("pressed remember password")
+                showingAlertForgotPassword = true
             } label: {
                 Text("Нагадати пароль")
                     .foregroundColor(.gray)
