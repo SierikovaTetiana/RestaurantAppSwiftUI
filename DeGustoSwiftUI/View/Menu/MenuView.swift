@@ -45,8 +45,8 @@ struct MenuView: View {
                 .navigationBarItems(
                     leading:
                         NavigationLink {
-                            if userAutorization.isAnonymous {
-//                            if UserAutorization.userAutorization.isAnonymous {
+//                            if userAutorization.isAnonymous {
+                            if UserAutorization.userAutorization.isAnonymous {
                                 LoginView(tabSelection: $tabSelection)
                             } else {
                                 ProfileView(tabSelection: $tabSelection)

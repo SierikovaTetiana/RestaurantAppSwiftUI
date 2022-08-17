@@ -14,7 +14,7 @@ import Firebase
     @Published var totalCart = TotalCart()
     
     func fetchUserCart(menu: [SectionData]) {
-        let userUid = UserAutorization.userAutorization.userUid
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
             guard let document = document, document.exists else { return }
@@ -55,7 +55,7 @@ import Firebase
     }
     
     private func updateCountDataInFirebase(dish: DishData, count: Int) {
-        let userUid = UserAutorization.userAutorization.userUid
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
         lazy var docRef = Firestore.firestore().collection("users").document(userUid)
         if count != 0 {
             docRef.updateData(["cart.\(dish.dishTitle)": count]) { err in

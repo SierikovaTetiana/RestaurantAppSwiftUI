@@ -13,6 +13,7 @@ struct ContentView: View {
     @StateObject var sliderImagesViewModel = SliderImagesViewModel()
     @StateObject var userAutorization = UserAutorization()
     @StateObject var cartViewModel = CartViewModel()
+    @StateObject var profileViewModel = ProfileViewModel()
     
     var body: some View {
         TabView(selection: $tabSelection) {
@@ -34,6 +35,7 @@ struct ContentView: View {
         .environmentObject(sliderImagesViewModel)
         .environmentObject(userAutorization)
         .environmentObject(cartViewModel)
+        .environmentObject(profileViewModel)
         .onAppear(perform: {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
@@ -42,7 +44,7 @@ struct ContentView: View {
             if mainViewModel.menu.isEmpty {
                 self.sliderImagesViewModel.fetchSliderImages()
                 self.mainViewModel.fetchMenu {
-                    UserAutorization.userAutorization.autorizeUser {_ in
+                    UserAutorization.userAutorization.autorizeUser {
                         cartViewModel.fetchUserCart(menu: mainViewModel.menu)
                         self.mainViewModel.fetchUserFavorites {
                             self.mainViewModel.fetchSectionMenuImage()
@@ -51,6 +53,10 @@ struct ContentView: View {
                 }
             }
             
+            if !self.userAutorization.isAnonymous {
+                cartViewModel.fetchUserCart(menu: mainViewModel.menu)
+                self.mainViewModel.fetchUserFavorites { }
+            }
         })
     }
 }

@@ -77,7 +77,6 @@ extension LoginView {
                 }
             }
             Button {
-                print("pressed remember password")
                 showingAlertForgotPassword = true
             } label: {
                 Text("Нагадати пароль")
@@ -108,3 +107,5 @@ extension LoginView {
         }.padding()
     }
 }
+//TODO: secure password text fields
+//TODO: implement facebook login

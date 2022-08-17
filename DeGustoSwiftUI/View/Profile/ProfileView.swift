@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileView: View {
     @State var text = ""
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var profileViewModel: ProfileViewModel
     @EnvironmentObject var cartViewModel: CartViewModel
     @EnvironmentObject var userAutorization: UserAutorization
     @Binding var tabSelection: Int
@@ -24,6 +25,11 @@ struct ProfileView: View {
             Spacer()
             socialButtons
         }
+        .onAppear(perform: {
+            if ((profileViewModel.userInfo.userDaysInApp?.isEmpty) != nil) {
+                profileViewModel.getInfoAboutUser()
+            }
+        })
         .navigationTitle("Профіль")
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(
@@ -50,7 +56,7 @@ struct ProfileView_Previews: PreviewProvider {
 extension ProfileView {
     var headerView: some View {
         HStack {
-            Text("Ви з нами вже 65 днів")
+            Text("Ви з нами вже \(profileViewModel.userInfo.userDaysInApp ?? "1") днів")
                 .foregroundColor(Color("darkGreen"))
                 .font(.title2)
             Spacer()
@@ -65,7 +71,7 @@ extension ProfileView {
     
     var rowsView: some View {
         VStack(spacing: 20) {
-            ForEach(ProfileViewModel.allCases, id: \.rawValue) { item in
+            ForEach(ProfileModelForListView.allCases, id: \.rawValue) { item in
                 HStack {
                     Image(systemName: item.image)
                         .resizable()
@@ -86,7 +92,6 @@ extension ProfileView {
         Button {
             userAutorization.logout()
             presentationMode.wrappedValue.dismiss()
-            print("pressed log out account")
         } label: {
             Text("Вийти з акаунту")
                 .foregroundColor(Color("darkGreen"))

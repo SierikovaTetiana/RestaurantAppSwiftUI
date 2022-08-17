@@ -55,7 +55,7 @@ extension CheckOutView {
             Text("Персональні дані")
                 .font(.system(.title3, design: .rounded))
                 .foregroundColor(Color("darkGreen"))
-            ForEach([ProfileViewModel.name, ProfileViewModel.phone], id: \.rawValue) { item in
+            ForEach([ProfileModelForListView.userName, ProfileModelForListView.phoneNumber], id: \.rawValue) { item in
                 HStack {
                     Image(systemName: item.image)
                         .resizable()

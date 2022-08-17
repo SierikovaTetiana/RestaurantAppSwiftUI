@@ -63,7 +63,6 @@ import Firebase
         }
     }
     
-    
     func fetchDishImages(indexOfSectionToFetch: Int?) {
         var sectionTitle = ""
         guard let sectionIndex = indexOfSectionToFetch else { return }

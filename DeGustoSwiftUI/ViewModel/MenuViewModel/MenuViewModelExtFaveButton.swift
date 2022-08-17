@@ -11,7 +11,7 @@ import Firebase
 extension MenuViewModel {
     
     func fetchUserFavorites(completion: @escaping () -> ()) {
-        let userUid = UserAutorization.userAutorization.userUid
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
             guard let document = document, document.exists else { return }
@@ -35,7 +35,8 @@ extension MenuViewModel {
     func faveButtonTapped(sectionIndex: Int, dishIndex: Int?) {
         guard let dishIndex = dishIndex else { return }
         menu[sectionIndex].data[dishIndex].favorite = !menu[sectionIndex].data[dishIndex].favorite //change fave in menu section
-        let userUid = UserAutorization.userAutorization.userUid
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
+        print("DEBUG: faveButtonTapped", userUid)
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
             if self.menu[sectionIndex].data[dishIndex].favorite {
