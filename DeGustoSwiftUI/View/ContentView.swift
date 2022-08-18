@@ -42,20 +42,15 @@ struct ContentView: View {
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
             
             if mainViewModel.menu.isEmpty {
-                self.sliderImagesViewModel.fetchSliderImages()
-                self.mainViewModel.fetchMenu {
-                    UserAutorization.userAutorization.autorizeUser {
+                sliderImagesViewModel.fetchSliderImages()
+                mainViewModel.fetchMenu {
+                    userAutorization.autorizeUser {
                         cartViewModel.fetchUserCart(menu: mainViewModel.menu)
-                        self.mainViewModel.fetchUserFavorites {
-                            self.mainViewModel.fetchSectionMenuImage()
+                        mainViewModel.fetchUserFavorites {
+                            mainViewModel.fetchSectionMenuImage()
                         }
                     }
                 }
-            }
-            
-            if !self.userAutorization.isAnonymous {
-                cartViewModel.fetchUserCart(menu: mainViewModel.menu)
-                self.mainViewModel.fetchUserFavorites { }
             }
         })
     }

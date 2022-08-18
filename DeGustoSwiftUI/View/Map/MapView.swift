@@ -11,6 +11,7 @@ import MapKit
 struct MapView: View {
     @StateObject var mapViewModel = MapViewModel()
     @EnvironmentObject var cartViewModel: CartViewModel
+    @EnvironmentObject var userAutorization: UserAutorization
     @Binding var tabSelection: Int
     
     var body: some View {
@@ -33,7 +34,7 @@ struct MapView: View {
             .navigationBarItems(
                 leading:
                     NavigationLink {
-                        if UserAutorization.userAutorization.isAnonymous {
+                        if userAutorization.isAnonymous {
                             LoginView(tabSelection: $tabSelection)
                         } else {
                             ProfileView(tabSelection: $tabSelection)

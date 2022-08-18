@@ -10,7 +10,6 @@ import Firebase
 
 @MainActor final class UserAutorization: ObservableObject {
     
-    static let userAutorization = UserAutorization()
     @Published var isAnonymous = true
     @Published var forgotPasswordEmailWasSent = false
     
@@ -58,9 +57,8 @@ import Firebase
     func logout() {
         do {
             try Auth.auth().signOut()
-            //            signInAnonymously {userUID in
-            //                self.userUid = userUID
-            //            }
+            self.isAnonymous = true
+            signInAnonymously { }
         } catch let signOutError as NSError {
             print("Error signing out: ", signOutError)
         }

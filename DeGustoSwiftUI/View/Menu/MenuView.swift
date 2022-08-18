@@ -36,6 +36,10 @@ struct MenuView: View {
                                 TotalInTheCartButton(screenWidth: geometry.size.width)
                             }})
                 }
+                .onChange(of: userAutorization.isAnonymous, perform: {_ in
+                    cartViewModel.fetchUserCart(menu: mainViewModel.menu)
+                    mainViewModel.fetchUserFavorites { }
+                })
                 .toolbar {
                     ToolbarItem(placement: .principal) {
                         Image("logo").resizable().aspectRatio(contentMode: .fit)
@@ -45,8 +49,7 @@ struct MenuView: View {
                 .navigationBarItems(
                     leading:
                         NavigationLink {
-//                            if userAutorization.isAnonymous {
-                            if UserAutorization.userAutorization.isAnonymous {
+                            if userAutorization.isAnonymous {
                                 LoginView(tabSelection: $tabSelection)
                             } else {
                                 ProfileView(tabSelection: $tabSelection)

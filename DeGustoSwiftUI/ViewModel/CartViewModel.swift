@@ -12,8 +12,15 @@ import Firebase
     
     @Published var cartDishData = [CartModel]()
     @Published var totalCart = TotalCart()
+    let faveSectionInMenu = "Улюблене"
     
     func fetchUserCart(menu: [SectionData]) {
+        //remove fave section when user loged out
+        if menu[0].title == faveSectionInMenu {
+            cartDishData.removeAll()
+            totalCart = TotalCart()
+        }
+        
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in

@@ -11,6 +11,11 @@ import Firebase
 extension MenuViewModel {
     
     func fetchUserFavorites(completion: @escaping () -> ()) {
+        //remove fave section when user loged out
+        if menu[0].title == faveSection {
+            menu.remove(at: 0)
+        }
+        
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
