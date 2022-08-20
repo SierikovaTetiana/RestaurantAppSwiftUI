@@ -89,6 +89,20 @@ import Firebase
         countTotalCart()
     }
     
+    func removeAllDishesFromCart() {
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
+        let docRef = Firestore.firestore().collection("users").document(userUid)
+        docRef.updateData([
+            "cart": FieldValue.delete(),
+        ]) { err in
+            if let err = err {
+                print("Error updating document: \(err)")
+            } else {
+                self.cartDishData.removeAll()
+            }
+        }
+    }
+    
     private func updateCountDataInFirebase(dishTitle: String, count: Int) {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         lazy var docRef = Firestore.firestore().collection("users").document(userUid)

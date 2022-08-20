@@ -42,7 +42,7 @@ extension FullCartView {
     var bottomView: some View {
         VStack {
             Button(action: {
-                print("Go to the menu")
+                cartViewModel.removeAllDishesFromCart()
             }) {
                 Text("Видалити все")
                     .font(.title2)
@@ -58,7 +58,7 @@ extension FullCartView {
                     .fontWeight(.bold)
                     .font(.title2)
             }.padding([.leading, .bottom, .trailing])
-        }
+        }.animation(Animation.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8), value: UUID())
     }
     
     var cell: some View {
@@ -107,7 +107,7 @@ extension FullCartView {
                     }
                 }
             }
-        }
+        }.animation(Animation.timingCurve(0.2, 0.8, 0.2, 1, duration: 0.8), value: UUID())
     }
     
     var backNavButton: some View {
