@@ -9,11 +9,12 @@ import SwiftUI
 
 struct FullCartView: View {
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var cartViewModel: CartViewModel
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
-                defaultCell
+                cell
                 Spacer()
                 bottomView
                 NavigationLink {
@@ -53,68 +54,60 @@ extension FullCartView {
                 Text("Всього на суму: ")
                     .font(.title2)
                 Spacer()
-                Text("100 uah")
+                Text("\(cartViewModel.totalCart.totalPrice) грн.")
                     .fontWeight(.bold)
                     .font(.title2)
             }.padding([.leading, .bottom, .trailing])
         }
     }
     
-    var defaultCell: some View {
-        ScrollView {
-            LazyVStack {
-                ForEach(0 ... 3, id: \.self) {_ in
-                    cell
-                    Divider()
-                }
-            }
-        }.padding(.top)
-    }
-    
     var cell: some View {
-        HStack {
-            Image("facebook")
-                .resizable()
-                .scaledToFit()
-                .cornerRadius(20)
-                .frame(width: 100, height: 100, alignment: .leading)
-                .padding(.trailing)
-            VStack(alignment: .leading) {
-                Text("Dish Title")
-                    .font(.title)
-                    .fontWeight(.medium)
-                Spacer()
+        List (cartViewModel.cartDishData, id: \.id) { item in
+            Section {
                 HStack {
-                    Button(action: {
-                        print("minus")
-                    }) {
-                        Image(systemName: "minus")
+                    Image(uiImage: (item.dishImage ?? UIImage(systemName: "leaf"))!)
+                        .resizable()
+                        .scaledToFit()
+                        .cornerRadius(20)
+                        .frame(width: 100, height: 100, alignment: .leading)
+                        .padding(.trailing)
+                    VStack(alignment: .leading) {
+                        Text(item.dishTitle)
+                            .font(.title2)
+                            .fontWeight(.medium)
+                        Spacer()
+                        HStack {
+                            Button(action: {
+                                cartViewModel.addChangesToCountDishFromCart(dish: item, addDish: false)
+                            }) {
+                                Image(systemName: "minus")
+                            }
+                            .padding(.trailing)
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(Color("darkRed"))
+                            .font(Font.system(.body).bold())
+                            
+                            Text("\(item.count)")
+                                .font(.system(.title3, design: .rounded))
+                                .foregroundColor(Color("darkGreen"))
+                            
+                            Button(action: {
+                                cartViewModel.addChangesToCountDishFromCart(dish: item, addDish: true)
+                            }) {
+                                Image(systemName: "plus")
+                            }
+                            .padding(.horizontal)
+                            .buttonStyle(BorderlessButtonStyle())
+                            .foregroundColor(Color("darkRed"))
+                            .font(Font.system(.body).bold())
+                            Spacer()
+                            Text("\(item.priceOfDishes) грн.")
+                                .font(.title2)
+                        }
                     }
-                    .padding(.trailing)
-                    .buttonStyle(BorderlessButtonStyle())
-                    .foregroundColor(Color("darkRed"))
-                    .font(Font.system(.body).bold())
-                    
-                    Text("20")
-                        .font(.system(.title2, design: .rounded))
-                        .foregroundColor(Color("darkGreen"))
-                    
-                    Button(action: {
-                        print("plus")
-                    }) {
-                        Image(systemName: "plus")
-                    }
-                    .padding(.horizontal)
-                    .buttonStyle(BorderlessButtonStyle())
-                    .foregroundColor(Color("darkRed"))
-                    .font(Font.system(.body).bold())
-                    Spacer()
-                    Text("100 uah")
-                        .font(.title2)
                 }
             }
-            Spacer()
-        }.padding()
+        }
     }
     
     var backNavButton: some View {

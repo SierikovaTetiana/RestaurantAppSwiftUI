@@ -17,10 +17,24 @@ import Firebase
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 if let firstData = document.data() {
-                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String, email: firstData["email"] as? String, bDay: firstData["birthDate"] as? String, userDaysInApp: firstData["data"] as? String)
-                    print("self.userInfo", self.userInfo)
+                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String, email: firstData["email"] as? String, bDay: firstData["birthDate"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
                 }
             }
         }
+    }
+    
+    private func countUserDaysInApp(days: Double?) -> String {
+        if let countTerm = days {
+            let unixtime = NSDate().timeIntervalSince1970
+            let difference = Int((unixtime - countTerm)/86400)
+            if difference <= 1 {
+                return "Ви з нами вже 1 день"
+            } else if difference < 5 {
+                return "Ви з нами вже \(difference) дні"
+            } else {
+                return "Ви з нами вже \(difference) днів"
+            }
+        }
+        return ""
     }
 }

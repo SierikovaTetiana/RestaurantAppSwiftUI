@@ -44,12 +44,7 @@ struct ContentView: View {
             if mainViewModel.menu.isEmpty {
                 sliderImagesViewModel.fetchSliderImages()
                 mainViewModel.fetchMenu {
-                    userAutorization.autorizeUser {
-                        cartViewModel.fetchUserCart(menu: mainViewModel.menu)
-                        mainViewModel.fetchUserFavorites {
-                            mainViewModel.fetchSectionMenuImage()
-                        }
-                    }
+                    userAutorization.autorizeUser()
                 }
             }
         })

@@ -5,7 +5,7 @@
 //  Created by Tetiana Sierikova on 08.08.2022.
 //
 
-import Foundation
+import UIKit
 import Firebase
 
 @MainActor final class CartViewModel: ObservableObject {
@@ -30,7 +30,17 @@ import Firebase
             for item in cartData {
                 for index in menu.indices {
                     if let indexOfDish = menu[index].data.firstIndex(where: { $0.dishTitle == item.key }) {
-                        self.cartDishData.append(CartModel(dishTitle: item.key, count: item.value, price: menu[index].data[indexOfDish].price))
+                        let totalDishPrice = menu[index].data[indexOfDish].price * item.value
+                        let dishImgName = menu[index].data[indexOfDish].dishImgName
+                        let dishImage = menu[index].data[indexOfDish].dishImage
+                        if dishImage == nil {
+                            self.getDishImage(sectionTitle: menu[index].title, dishImgName: dishImgName) {image in
+                                self.cartDishData.append(CartModel(dishTitle: item.key, count: item.value, priceOneDish: menu[index].data[indexOfDish].price, priceOfDishes: totalDishPrice, dishImage: image, dishImgName: dishImgName))
+                                self.countTotalCart()
+                            }
+                        } else {
+                            self.cartDishData.append(CartModel(dishTitle: item.key, count: item.value, priceOneDish: menu[index].data[indexOfDish].price, priceOfDishes: totalDishPrice, dishImage: dishImage, dishImgName: dishImgName))
+                        }
                     }
                 }
             }
@@ -38,7 +48,7 @@ import Firebase
         }
     }
     
-    func addChangesToCountDish(dish: DishData, price: Int, addDish: Bool) {
+    func addChangesToCountDishFromMenu(dish: DishData, price: Int, addDish: Bool) {
         var count = 0
         var dishFromDishData = cartDishData.first(where: { $0.dishTitle == dish.dishTitle })
         count = dishFromDishData?.count ?? 0
@@ -47,32 +57,50 @@ import Firebase
             cartDishData.removeAll(where: { $0.dishTitle == dish.dishTitle })
         } else {
             if count <= 1 && addDish == true {
-                cartDishData.append(CartModel(dishTitle: dish.dishTitle, count: count, price: price))
+                cartDishData.append(CartModel(dishTitle: dish.dishTitle, count: count, priceOneDish: dish.price, priceOfDishes: dish.price * count, dishImage: dish.dishImage, dishImgName: dish.dishImgName))
             } else {
                 dishFromDishData?.count = count
                 for index in cartDishData.indices {
                     if cartDishData[index].dishTitle == dish.dishTitle {
                         cartDishData[index].count = count
+                        cartDishData[index].priceOfDishes = cartDishData[index].priceOneDish * count
                     }
                 }
             }
         }
-        updateCountDataInFirebase(dish: dish, count: count)
+        updateCountDataInFirebase(dishTitle: dish.dishTitle, count: count)
         countTotalCart()
     }
     
-    private func updateCountDataInFirebase(dish: DishData, count: Int) {
+    func addChangesToCountDishFromCart(dish: CartModel, addDish: Bool) {
+        var count = dish.count
+        count = addDish ? count + 1 : count - 1
+        if count <= 0 {
+            cartDishData.removeAll(where: { $0.dishTitle == dish.dishTitle })
+        } else {
+            for index in cartDishData.indices {
+                if cartDishData[index].dishTitle == dish.dishTitle {
+                    cartDishData[index].count = count
+                    cartDishData[index].priceOfDishes = cartDishData[index].priceOneDish * count
+                }
+            }
+        }
+        updateCountDataInFirebase(dishTitle: dish.dishTitle, count: count)
+        countTotalCart()
+    }
+    
+    private func updateCountDataInFirebase(dishTitle: String, count: Int) {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         lazy var docRef = Firestore.firestore().collection("users").document(userUid)
         if count != 0 {
-            docRef.updateData(["cart.\(dish.dishTitle)": count]) { err in
+            docRef.updateData(["cart.\(dishTitle)": count]) { err in
                 if let err = err {
                     print("Error updating document: \(err)")
                 }
             }
         } else {
             docRef.updateData([
-                "cart.\(dish.dishTitle)": FieldValue.delete(),
+                "cart.\(dishTitle)": FieldValue.delete(),
             ]) { err in
                 if let err = err {
                     print("Error updating document: \(err)")
@@ -85,9 +113,22 @@ import Firebase
         var totalPieces = 0
         var totalPrice = 0
         for item in cartDishData {
-            totalPrice += item.price * item.count
+            totalPrice += item.priceOneDish * item.count
             totalPieces += item.count
         }
         totalCart = TotalCart(totalPrice: totalPrice, totalPieces: totalPieces, dishes: cartDishData)
+    }
+    
+    private func getDishImage(sectionTitle: String, dishImgName: String, completion: @escaping (UIImage) -> Void) {
+        let storageRef = Storage.storage().reference().child("menuImages").child(sectionTitle).child("\(dishImgName).jpg")
+        storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
+            if let error = error {
+                print("Error fetchDishImages", error)
+            } else {
+                guard let imgData = data else { return }
+                guard let image = UIImage(data: imgData) else { return }
+                completion(image)
+            }
+        }
     }
 }

@@ -20,6 +20,7 @@ struct EmptyCartView: View {
                 Spacer()
                 Button(action: {
                     self.tabSelection = 1
+                    self.presentationMode.wrappedValue.dismiss()
                 }) {
                     Text("Перейти у меню")
                         .foregroundColor(.white)

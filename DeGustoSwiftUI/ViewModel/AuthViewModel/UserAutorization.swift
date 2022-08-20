@@ -10,15 +10,15 @@ import Firebase
 
 @MainActor final class UserAutorization: ObservableObject {
     
-    @Published var isAnonymous = true
+    @Published var isAnonymous: Bool?
     @Published var forgotPasswordEmailWasSent = false
     
-    func autorizeUser(completion:@escaping () -> ()) {
+    func autorizeUser() {
         if Auth.auth().currentUser != nil {
             isAnonymous = Auth.auth().currentUser!.isAnonymous
-            completion()
         } else {
-            signInAnonymously { completion() }
+            isAnonymous = true
+            signInAnonymously()
         }
     }
     
@@ -58,7 +58,7 @@ import Firebase
         do {
             try Auth.auth().signOut()
             self.isAnonymous = true
-            signInAnonymously { }
+            signInAnonymously()
         } catch let signOutError as NSError {
             print("Error signing out: ", signOutError)
         }
@@ -74,7 +74,7 @@ import Firebase
         }
     }
     
-    func signInAnonymously(completion:@escaping () -> ()) {
+    private func signInAnonymously() {
         Auth.auth().signInAnonymously { authResult, error in
             if let e = error {
                 print(e.localizedDescription)
@@ -82,7 +82,6 @@ import Firebase
                 guard let userUid = authResult?.user.uid else { return }
                 Firestore.firestore().collection("users").document(userUid).setData([ "favorites": [] ])
                 self.isAnonymous = ((Auth.auth().currentUser?.isAnonymous) != nil)
-                completion()
             }
         }
     }

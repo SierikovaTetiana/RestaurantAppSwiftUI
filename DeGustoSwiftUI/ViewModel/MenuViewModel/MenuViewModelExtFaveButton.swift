@@ -41,7 +41,6 @@ extension MenuViewModel {
         guard let dishIndex = dishIndex else { return }
         menu[sectionIndex].data[dishIndex].favorite = !menu[sectionIndex].data[dishIndex].favorite //change fave in menu section
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        print("DEBUG: faveButtonTapped", userUid)
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
             if self.menu[sectionIndex].data[dishIndex].favorite {

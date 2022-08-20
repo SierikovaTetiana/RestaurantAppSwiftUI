@@ -38,7 +38,9 @@ struct MenuView: View {
                 }
                 .onChange(of: userAutorization.isAnonymous, perform: {_ in
                     cartViewModel.fetchUserCart(menu: mainViewModel.menu)
-                    mainViewModel.fetchUserFavorites { }
+                    mainViewModel.fetchUserFavorites {
+                        mainViewModel.fetchSectionMenuImage()
+                    }
                 })
                 .toolbar {
                     ToolbarItem(placement: .principal) {
@@ -49,7 +51,7 @@ struct MenuView: View {
                 .navigationBarItems(
                     leading:
                         NavigationLink {
-                            if userAutorization.isAnonymous {
+                            if userAutorization.isAnonymous ?? true {
                                 LoginView(tabSelection: $tabSelection)
                             } else {
                                 ProfileView(tabSelection: $tabSelection)

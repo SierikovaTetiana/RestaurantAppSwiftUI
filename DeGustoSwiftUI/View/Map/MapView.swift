@@ -34,7 +34,7 @@ struct MapView: View {
             .navigationBarItems(
                 leading:
                     NavigationLink {
-                        if userAutorization.isAnonymous {
+                        if userAutorization.isAnonymous ?? true {
                             LoginView(tabSelection: $tabSelection)
                         } else {
                             ProfileView(tabSelection: $tabSelection)

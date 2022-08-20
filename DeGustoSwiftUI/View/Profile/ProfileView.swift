@@ -26,7 +26,7 @@ struct ProfileView: View {
             socialButtons
         }
         .onAppear(perform: {
-            if ((profileViewModel.userInfo.userDaysInApp?.isEmpty) != nil) {
+            if profileViewModel.userInfo.userDaysInApp == nil {
                 profileViewModel.getInfoAboutUser()
             }
         })
@@ -56,7 +56,7 @@ struct ProfileView_Previews: PreviewProvider {
 extension ProfileView {
     var headerView: some View {
         HStack {
-            Text("Ви з нами вже \(profileViewModel.userInfo.userDaysInApp ?? "1") днів")
+            Text(profileViewModel.userInfo.userDaysInApp ?? "")
                 .foregroundColor(Color("darkGreen"))
                 .font(.title2)
             Spacer()

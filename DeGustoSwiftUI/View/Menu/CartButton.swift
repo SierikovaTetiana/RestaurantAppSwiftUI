@@ -24,7 +24,7 @@ struct CartButton: View {
     
     func emptyDishCart() -> some View {
         return Button("У КОШИК") {
-            cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: true)
+            cartViewModel.addChangesToCountDishFromMenu(dish: dish, price: price, addDish: true)
         }
         .font(.system(.title2, design: .rounded))
         .foregroundColor(Color("darkGreen"))
@@ -34,7 +34,7 @@ struct CartButton: View {
     func addToCart() -> some View {
         return HStack {
             Button(action: {
-                cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: false)
+                cartViewModel.addChangesToCountDishFromMenu(dish: dish, price: price, addDish: false)
             }) {
                 Image(systemName: "minus")
             }
@@ -47,7 +47,7 @@ struct CartButton: View {
                 .font(.system(.title2, design: .rounded))
             
             Button(action: {
-                cartViewModel.addChangesToCountDish(dish: dish, price: price, addDish: true)
+                cartViewModel.addChangesToCountDishFromMenu(dish: dish, price: price, addDish: true)
             }) {
                 Image(systemName: "plus")
             }
