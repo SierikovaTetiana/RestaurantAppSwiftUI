@@ -4,11 +4,14 @@
 //
 //  Created by Tetiana Sierikova on 16.08.2022.
 //
-
-import Foundation
+import UIKit
+import SwiftUI
 import Firebase
 
 @MainActor final class ProfileViewModel: ObservableObject {
+    private let defaults = UserDefaults.standard
+    private let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+    private lazy var url = documents.appendingPathComponent("ProfilePhoto.png")
     @Published var userInfo = ProfileModel()
     
     func getInfoAboutUser() {
@@ -20,6 +23,7 @@ import Firebase
                     self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String, email: firstData["email"] as? String, bDay: firstData["birthDate"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
                 }
             }
+            self.getUserPhoto()
         }
     }
     
@@ -36,5 +40,27 @@ import Firebase
             }
         }
         return ""
+    }
+    
+    private func getUserPhoto() {
+        do {
+            let data = try Data(contentsOf: url, options: [.mappedIfSafe, .uncached])
+            guard let uiImage = UIImage(data: data) else { return }
+            userInfo.userPhoto = Image(uiImage: uiImage)
+        } catch {
+            userInfo.userPhoto = Image(systemName: "person")
+            print("Unable to Download User Photo from Disk (\(error))")
+        }
+    }
+    
+    func loadPhoto(image: UIImage) {
+        guard let imageData = image.pngData() else {return}
+        do {
+            try imageData.write(to: url)
+            defaults.set(url, forKey: "ProfilePhoto")
+            userInfo.userPhoto = Image(uiImage: image)
+        } catch {
+            print("Unable to Write Data to Disk (\(error))")
+        }
     }
 }

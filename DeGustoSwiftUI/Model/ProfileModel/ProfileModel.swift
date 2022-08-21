@@ -5,7 +5,7 @@
 //  Created by Tetiana Sierikova on 16.08.2022.
 //
 
-import Foundation
+import SwiftUI
 
 struct ProfileModel {
     var userName: String?
@@ -13,4 +13,5 @@ struct ProfileModel {
     var email: String?
     var bDay: String?
     var userDaysInApp: String?
+    var userPhoto: Image?
 }

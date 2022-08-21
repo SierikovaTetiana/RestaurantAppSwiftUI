@@ -14,6 +14,7 @@ struct ProfileView: View {
     @EnvironmentObject var cartViewModel: CartViewModel
     @EnvironmentObject var userAutorization: UserAutorization
     @Binding var tabSelection: Int
+    @State var showImagePicker: Bool = false
     
     var body: some View {
         VStack {
@@ -47,12 +48,6 @@ struct ProfileView: View {
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView(tabSelection: .constant(1))
-    }
-}
-
 extension ProfileView {
     var headerView: some View {
         HStack {
@@ -60,11 +55,29 @@ extension ProfileView {
                 .foregroundColor(Color("darkGreen"))
                 .font(.title2)
             Spacer()
-            Image(systemName: "person")
-                .resizable()
-                .scaledToFit()
-                .clipShape(Circle())
-                .frame(width: 80, height: 80)
+            Button {
+                self.showImagePicker.toggle()
+                
+            } label: {
+                if profileViewModel.userInfo.userPhoto == nil {
+                    Image(systemName: "person")
+                        .resizable()
+                        .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 100, height: 100)
+                } else {
+                    profileViewModel.userInfo.userPhoto!
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(Circle())
+                        .frame(width: 100, height: 100)
+                }
+            }
+        }
+        .sheet(isPresented: $showImagePicker) {
+            ImagePicker(sourceType: .photoLibrary) { image in
+                self.profileViewModel.loadPhoto(image: image)
+            }
         }
         .padding([.leading, .bottom, .trailing])
     }
@@ -136,5 +149,11 @@ extension ProfileView {
                 }
             }
         }.padding()
+    }
+}
+
+struct ProfileView_Previews: PreviewProvider {
+    static var previews: some View {
+        ProfileView(tabSelection: .constant(1))
     }
 }
