@@ -54,13 +54,32 @@ import Firebase
     }
     
     func loadPhoto(image: UIImage) {
-        guard let imageData = image.pngData() else {return}
+        guard let imageData = image.pngData() else { return }
         do {
             try imageData.write(to: url)
             defaults.set(url, forKey: "ProfilePhoto")
             userInfo.userPhoto = Image(uiImage: image)
         } catch {
             print("Unable to Write Data to Disk (\(error))")
+        }
+    }
+    
+    func changeUserInfo() {
+        
+        userInfo.userName = "Test Name"
+//        changeUserInfoInFirebase(whatToChange: <#T##String#>, value: <#T##String#>)
+    }
+    
+    private func changeUserInfoInFirebase(whatToChange key: String, value: String) {
+        guard let userUid = Auth.auth().currentUser?.uid else { return }
+        let docRef = Firestore.firestore().collection("users").document(userUid)
+        docRef.getDocument { (document, error) in
+            docRef.updateData(([key: value]), completion: { err in
+                    if let err = err {
+                        print("Error updating document: \(err)")
+                    } else {
+                        print("Document successfully updated")
+                    }})
         }
     }
 }

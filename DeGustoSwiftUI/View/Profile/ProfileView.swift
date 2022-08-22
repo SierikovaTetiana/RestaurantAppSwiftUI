@@ -16,6 +16,12 @@ struct ProfileView: View {
     @Binding var tabSelection: Int
     @State var showImagePicker: Bool = false
     
+    @State var userName = ""
+    @State var phoneNumber = ""
+    @State var password = ""
+    @State var email = ""
+    @State var bDay = ""
+    
     var body: some View {
         VStack {
             Spacer()
@@ -26,6 +32,7 @@ struct ProfileView: View {
             Spacer()
             socialButtons
         }
+        .onTapGesture { hideKeyboard() }
         .onAppear(perform: {
             if profileViewModel.userInfo.userDaysInApp == nil {
                 profileViewModel.getInfoAboutUser()
@@ -84,20 +91,11 @@ extension ProfileView {
     
     var rowsView: some View {
         VStack(spacing: 20) {
-            ForEach(ProfileModelForListView.allCases, id: \.rawValue) { item in
-                HStack {
-                    Image(systemName: item.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40, alignment: .leading)
-                        .foregroundColor(Color("darkGreen"))
-                    TextField("\(item.description)", text: $text)
-                        .padding(.leading)
-                    Image(systemName: "pencil")
-                        .foregroundColor(Color("darkGreen"))
-                }.padding(.horizontal)
-                Divider()
-            }
+            ProfileTextFieldView(image: ProfileModelForListView.userName.image, description: profileViewModel.userInfo.userName ?? ProfileModelForListView.userName.description, textIsEmpty: profileViewModel.userInfo.userName?.isEmpty ?? true, text: userName)
+            ProfileTextFieldView(image: ProfileModelForListView.phoneNumber.image, description: profileViewModel.userInfo.phoneNumber ?? ProfileModelForListView.phoneNumber.description, textIsEmpty: profileViewModel.userInfo.phoneNumber?.isEmpty ?? true, text: phoneNumber)
+            ProfileTextFieldView(image: ProfileModelForListView.password.image, description: ProfileModelForListView.password.description, textIsEmpty: false, text: password)
+            ProfileTextFieldView(image: ProfileModelForListView.email.image, description: profileViewModel.userInfo.email ?? ProfileModelForListView.email.description, textIsEmpty: profileViewModel.userInfo.email?.isEmpty ?? true, text: email)
+            ProfileTextFieldView(image: ProfileModelForListView.bDay.image, description: profileViewModel.userInfo.bDay ?? ProfileModelForListView.bDay.description, textIsEmpty: profileViewModel.userInfo.bDay?.isEmpty ?? true, text: bDay)
         }.padding(.bottom)
     }
     
@@ -149,6 +147,10 @@ extension ProfileView {
                 }
             }
         }.padding()
+    }
+    
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

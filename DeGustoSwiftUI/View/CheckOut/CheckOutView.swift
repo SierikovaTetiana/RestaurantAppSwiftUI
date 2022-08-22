@@ -10,10 +10,14 @@ import SwiftUI
 struct CheckOutView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
+    @EnvironmentObject var profileViewModel: ProfileViewModel
     @State private var takeAwayOrDelivery = 0
     @State var text = ""
     @State var readyToNow = true
     @State private var currentDate = Date()
+    
+    @State var userName = ""
+    @State var phoneNumber = ""
     
     var body: some View {
         VStack {
@@ -55,18 +59,8 @@ extension CheckOutView {
             Text("Персональні дані")
                 .font(.system(.title3, design: .rounded))
                 .foregroundColor(Color("darkGreen"))
-            ForEach([ProfileModelForListView.userName, ProfileModelForListView.phoneNumber], id: \.rawValue) { item in
-                HStack {
-                    Image(systemName: item.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40, alignment: .leading)
-                        .foregroundColor(Color("darkGreen"))
-                    TextField("\(item.description)", text: $text)
-                        .padding(.leading)
-                }
-                Divider()
-            }
+//            ProfileTextFieldView(image: ProfileModelForListView.userName.image, description: profileViewModel.userInfo.userName ?? ProfileModelForListView.userName.description, textIsEmpty: profileViewModel.userInfo.userName?.isEmpty ?? true, text: userName)
+//            ProfileTextFieldView(image: ProfileModelForListView.phoneNumber.image, description: profileViewModel.userInfo.phoneNumber ?? ProfileModelForListView.phoneNumber.description, textIsEmpty: profileViewModel.userInfo.phoneNumber?.isEmpty ?? true, text: phoneNumber)
         }.padding()
     }
     

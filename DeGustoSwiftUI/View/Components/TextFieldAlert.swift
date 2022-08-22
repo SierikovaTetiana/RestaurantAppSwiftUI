@@ -31,7 +31,7 @@ struct TextFieldAlert: ViewModifier {
                                 isPresented.toggle()
                             }
                         } label: {
-                            Text("Не скидати")
+                            Text("Скасувати")
                                 .foregroundColor(.blue)
                         }
                         Spacer()
@@ -43,7 +43,7 @@ struct TextFieldAlert: ViewModifier {
                                 isPresented.toggle()
                             }
                         } label: {
-                            Text("Скинути")
+                            Text("Підтвердити")
                                 .foregroundColor(.red)
                         }
                         Spacer()

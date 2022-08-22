@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum ProfileModelForListView: String, CaseIterable {
     case userName
@@ -18,19 +19,19 @@ enum ProfileModelForListView: String, CaseIterable {
         switch self {
         case .userName: return "Ваше ім'я"
         case .phoneNumber: return "Ваш номер телефону"
-        case .password: return "Ваш пароль"
+        case .password: return "*******"
         case .email: return "Ваш email"
         case .bDay: return "Ваше День Народження"
         }
     }
     
-    var image: String {
+    var image: Image {
         switch self {
-        case .userName: return "person"
-        case .phoneNumber: return "phone"
-        case .password: return "key"
-        case .email: return "envelope"
-        case .bDay: return "gift"
+        case .userName: return Image(systemName: "person")
+        case .phoneNumber: return Image(systemName: "phone")
+        case .password: return Image(systemName: "key")
+        case .email: return Image(systemName: "envelope")
+        case .bDay: return Image(systemName: "gift")
         }
     }
 }
