@@ -16,6 +16,7 @@ struct LoginView: View {
     @State var password = ""
     @State var isLinkActive = false
     @State var showingAlertForgotPassword = false
+    @State var conformChangesFromAlert = false
     
     var body: some View {
         GeometryReader { geometry in
@@ -34,12 +35,12 @@ struct LoginView: View {
                             Button("Добре") { }
                         }
                 }
-                .blur(radius: showingAlertForgotPassword ? 10 : 0)
-            }.textFieldAlert(isPresented: $showingAlertForgotPassword, title: "Ви дійсно хочете скинути пароль?", message: "Введіть адресу електроної пошти, будь ласка", text: $forgotPasswordEmail, placeholder: "email", action: { text in
-                if !text.isEmpty {
-                    userAutorization.forgotPassword(email: text)
-                }
-            })
+            }.background(AlertWithTextField(textFromAlert: $forgotPasswordEmail, show: $showingAlertForgotPassword, conformChanges: $conformChangesFromAlert, title: "Ви дійсно хочете скинути пароль?", message: "Введіть адресу електроної пошти, будь ласка"))
+                .onChange(of: conformChangesFromAlert, perform: { newValue in
+                    if conformChangesFromAlert && !forgotPasswordEmail.isEmpty {
+                        userAutorization.forgotPassword(email: forgotPasswordEmail)
+                    }
+                })
         }
     }
 }

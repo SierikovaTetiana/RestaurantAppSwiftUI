@@ -35,10 +35,13 @@ struct ProfileTextFieldView: View {
                     DatePicker("label", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(CompactDatePickerStyle())
                         .labelsHidden()
+                        .frame(width: 190, height: 20, alignment: .leading)
+                        .clipped()
                     let formatedDate = selectedDate.formatted(.dateTime.day().month().year())
                     Text(formatedDate == dateToday ? "\(description)" : "\(formatedDate)")
                         .foregroundColor(formatedDate == dateToday ? .gray : .black)
                         .userInteractionDisabled()
+                        .frame(width: 190, height: 20, alignment: .leading)
                 }
             } else {
                 TextField("", text: $text, onEditingChanged: { edited in
@@ -50,7 +53,6 @@ struct ProfileTextFieldView: View {
             }
             
             Spacer()
-            
             if ProfileModelForListView.password.description == description {
                 changePasswordButton
             } else {
@@ -59,12 +61,14 @@ struct ProfileTextFieldView: View {
                         DatePicker("label", selection: $selectedDate, displayedComponents: .date)
                             .datePickerStyle(CompactDatePickerStyle())
                             .labelsHidden()
+                            .frame(width: 20, height: 20, alignment: .trailing)
+                            .clipped()
                         Image(systemName: "pencil")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 20, height: 20, alignment: .leading)
                             .foregroundColor(Color("darkGreen"))
                             .userInteractionDisabled()
+                            .frame(width: 20, height: 20, alignment: .trailing)
                     }
                 } else {
                     editButton
