@@ -10,6 +10,7 @@ import SwiftUI
 struct ProfileModel {
     var userName: String?
     var phoneNumber: String?
+    var password: String?
     var email: String?
     var bDay: String?
     var userDaysInApp: String?

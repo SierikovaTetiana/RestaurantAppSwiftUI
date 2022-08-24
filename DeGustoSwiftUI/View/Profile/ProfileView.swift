@@ -91,11 +91,11 @@ extension ProfileView {
     
     var rowsView: some View {
         VStack(spacing: 20) {
-            ProfileTextFieldView(image: ProfileModelForListView.userName.image, description: profileViewModel.userInfo.userName ?? ProfileModelForListView.userName.description, textIsEmpty: profileViewModel.userInfo.userName?.isEmpty ?? true, text: userName)
-            ProfileTextFieldView(image: ProfileModelForListView.phoneNumber.image, description: profileViewModel.userInfo.phoneNumber ?? ProfileModelForListView.phoneNumber.description, textIsEmpty: profileViewModel.userInfo.phoneNumber?.isEmpty ?? true, text: phoneNumber)
-            ProfileTextFieldView(image: ProfileModelForListView.password.image, description: ProfileModelForListView.password.description, textIsEmpty: false, text: password)
-            ProfileTextFieldView(image: ProfileModelForListView.email.image, description: profileViewModel.userInfo.email ?? ProfileModelForListView.email.description, textIsEmpty: profileViewModel.userInfo.email?.isEmpty ?? true, text: email)
-            ProfileTextFieldView(image: ProfileModelForListView.bDay.image, description: profileViewModel.userInfo.bDay ?? ProfileModelForListView.bDay.description, textIsEmpty: profileViewModel.userInfo.bDay?.isEmpty ?? true, text: bDay)
+            ProfileTextFieldView(image: ProfileModelForListView.userName.image, description: profileViewModel.userInfo.userName ?? ProfileModelForListView.userName.description, textIsEmpty: profileViewModel.userInfo.userName?.isEmpty ?? true, fieldName: \ProfileModel.userName, text: userName)
+            ProfileTextFieldView(image: ProfileModelForListView.phoneNumber.image, description: profileViewModel.userInfo.phoneNumber ?? ProfileModelForListView.phoneNumber.description, textIsEmpty: profileViewModel.userInfo.phoneNumber?.isEmpty ?? true, fieldName: \ProfileModel.phoneNumber, text: phoneNumber)
+            ProfileTextFieldView(image: ProfileModelForListView.password.image, description: ProfileModelForListView.password.description, textIsEmpty: false, fieldName: \ProfileModel.password, text: password)
+            ProfileTextFieldView(image: ProfileModelForListView.email.image, description: profileViewModel.userInfo.email ?? ProfileModelForListView.email.description, textIsEmpty: profileViewModel.userInfo.email?.isEmpty ?? true, fieldName: \ProfileModel.email, text: email)
+            ProfileTextFieldView(image: ProfileModelForListView.bDay.image, description: profileViewModel.userInfo.bDay ?? ProfileModelForListView.bDay.description, textIsEmpty: profileViewModel.userInfo.bDay?.isEmpty ?? true, fieldName: \ProfileModel.bDay, text: bDay)
         }.padding(.bottom)
     }
     

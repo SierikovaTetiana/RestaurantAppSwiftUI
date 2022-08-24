@@ -63,10 +63,9 @@ import Firebase
             print("Unable to Write Data to Disk (\(error))")
         }
     }
-    
-    func changeUserInfo() {
-        
-        userInfo.userName = "Test Name"
+
+    func changeUserInfo(fieldName: WritableKeyPath<ProfileModel, String?>, valueToChange: String) {
+        userInfo[keyPath: fieldName] = valueToChange
 //        changeUserInfoInFirebase(whatToChange: <#T##String#>, value: <#T##String#>)
     }
     
@@ -81,5 +80,24 @@ import Firebase
                         print("Document successfully updated")
                     }})
         }
+    }
+    
+    func changeUserPassword(oldPassword: String, newPassword: String) {
+        print(userInfo.email, oldPassword, newPassword)
+        guard let userEmail = userInfo.email else { return }
+        let user = Auth.auth().currentUser
+        let credential = EmailAuthProvider.credential(withEmail: userEmail, password: oldPassword)
+        user?.reauthenticate(with: credential, completion: { (result, error) in
+            if let err = error {
+                print("Error re-auth password: \(err)")
+            } else {
+                user?.updatePassword(to: newPassword) { err in
+                    if let err = err {
+                        print("Error updating password: \(err)")
+                    } else {
+                        print("Password successfully updated")
+                    }}
+            }
+        })
     }
 }
