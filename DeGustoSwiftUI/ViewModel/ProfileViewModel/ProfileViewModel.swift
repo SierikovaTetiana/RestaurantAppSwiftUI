@@ -20,7 +20,7 @@ import Firebase
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 if let firstData = document.data() {
-                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String, email: firstData["email"] as? String, bDay: firstData["birthDate"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
+                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String, email: firstData["email"] as? String, bDay: firstData["bDay"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
                 }
             }
             self.getUserPhoto()
@@ -63,10 +63,10 @@ import Firebase
             print("Unable to Write Data to Disk (\(error))")
         }
     }
-
-    func changeUserInfo(fieldName: WritableKeyPath<ProfileModel, String?>, valueToChange: String) {
-        userInfo[keyPath: fieldName] = valueToChange
-//        changeUserInfoInFirebase(whatToChange: <#T##String#>, value: <#T##String#>)
+    
+    func changeUserInfo(keyPathForUserInfo: WritableKeyPath<ProfileModel, String?>, fieldToChangeInFirebase: String, valueToChange: String) {
+        userInfo[keyPath: keyPathForUserInfo] = valueToChange
+        changeUserInfoInFirebase(whatToChange: fieldToChangeInFirebase, value: valueToChange)
     }
     
     private func changeUserInfoInFirebase(whatToChange key: String, value: String) {
@@ -74,16 +74,15 @@ import Firebase
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
             docRef.updateData(([key: value]), completion: { err in
-                    if let err = err {
-                        print("Error updating document: \(err)")
-                    } else {
-                        print("Document successfully updated")
-                    }})
+                if let err = err {
+                    print("Error updating document: \(err)")
+                } else {
+                    print("Document successfully updated")
+                }})
         }
     }
     
     func changeUserPassword(oldPassword: String, newPassword: String) {
-        print(userInfo.email, oldPassword, newPassword)
         guard let userEmail = userInfo.email else { return }
         let user = Auth.auth().currentUser
         let credential = EmailAuthProvider.credential(withEmail: userEmail, password: oldPassword)
