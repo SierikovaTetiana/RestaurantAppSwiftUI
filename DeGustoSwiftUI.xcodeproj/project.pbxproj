@@ -39,6 +39,10 @@
 		60BFCC7C28B60ADC00DBB2E9 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC7B28B60ADC00DBB2E9 /* ChangePasswordView.swift */; };
 		60BFCC7E28B613DE00DBB2E9 /* AlertWithTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC7D28B613DE00DBB2E9 /* AlertWithTextField.swift */; };
 		60BFCC8028B6420600DBB2E9 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC7F28B6420600DBB2E9 /* ViewExtension.swift */; };
+		60BFCC8428B7CB8000DBB2E9 /* OrderModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8328B7CB8000DBB2E9 /* OrderModel.swift */; };
+		60BFCC8728B7CDF300DBB2E9 /* CheckOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8628B7CDF300DBB2E9 /* CheckOutViewModel.swift */; };
+		60BFCC8928B7DBE600DBB2E9 /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8828B7DBE500DBB2E9 /* FirebaseKeys.swift */; };
+		60BFCC8B28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */; };
 		60CBB65928ABF80D006E46CB /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CBB65828ABF80D006E46CB /* ProfileModel.swift */; };
 		60D84A6E2899913C0070D042 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6D2899913C0070D042 /* MenuViewModel.swift */; };
 		60D84A70289A555D0070D042 /* SliderImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6F289A555D0070D042 /* SliderImageModel.swift */; };
@@ -81,6 +85,10 @@
 		60BFCC7B28B60ADC00DBB2E9 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
 		60BFCC7D28B613DE00DBB2E9 /* AlertWithTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlertWithTextField.swift; sourceTree = "<group>"; };
 		60BFCC7F28B6420600DBB2E9 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		60BFCC8328B7CB8000DBB2E9 /* OrderModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderModel.swift; sourceTree = "<group>"; };
+		60BFCC8628B7CDF300DBB2E9 /* CheckOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutViewModel.swift; sourceTree = "<group>"; };
+		60BFCC8828B7DBE500DBB2E9 /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
+		60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutViewExtension.swift; sourceTree = "<group>"; };
 		60CBB65828ABF80D006E46CB /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		60D84A6D2899913C0070D042 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		60D84A6F289A555D0070D042 /* SliderImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderImageModel.swift; sourceTree = "<group>"; };
@@ -217,6 +225,7 @@
 			isa = PBXGroup;
 			children = (
 				6027054028A552EF00AB0545 /* CheckOutView.swift */,
+				60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */,
 			);
 			path = CheckOut;
 			sourceTree = "<group>";
@@ -308,10 +317,12 @@
 		607290352897B0DC00C6479E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				60BFCC8228B7CB6E00DBB2E9 /* OrderModel */,
 				60ABEEFB28ABECB20094CFFE /* ProfileModel */,
 				601DC91E28A3C4D700DFBF6F /* MapModel */,
 				601DC91C28A3C4BC00DFBF6F /* MenuModel */,
 				601DC91D28A3C4CC00DFBF6F /* CartModel */,
+				60BFCC8828B7DBE500DBB2E9 /* FirebaseKeys.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -319,6 +330,7 @@
 		607290362897B0E400C6479E /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				60BFCC8528B7CDB300DBB2E9 /* CheckOutViewModel */,
 				6027053428A52EDF00AB0545 /* ProfileViewModel */,
 				601DC91928A3B9E700DFBF6F /* MapViewModel */,
 				601DC91828A3B9D900DFBF6F /* MenuViewModel */,
@@ -359,6 +371,22 @@
 				604BDF4128A10841008DE572 /* CartViewModel.swift */,
 			);
 			path = CartViewModel;
+			sourceTree = "<group>";
+		};
+		60BFCC8228B7CB6E00DBB2E9 /* OrderModel */ = {
+			isa = PBXGroup;
+			children = (
+				60BFCC8328B7CB8000DBB2E9 /* OrderModel.swift */,
+			);
+			path = OrderModel;
+			sourceTree = "<group>";
+		};
+		60BFCC8528B7CDB300DBB2E9 /* CheckOutViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				60BFCC8628B7CDF300DBB2E9 /* CheckOutViewModel.swift */,
+			);
+			path = CheckOutViewModel;
 			sourceTree = "<group>";
 		};
 		60D84A71289A64FC0070D042 /* Menu */ = {
@@ -506,18 +534,22 @@
 				601DC91328A2E1D500DFBF6F /* TotalInTheCartButton.swift in Sources */,
 				607290272897AE0300C6479E /* DeGustoSwiftUIApp.swift in Sources */,
 				60D84A79289A8BDD0070D042 /* SliderImagesViewModel.swift in Sources */,
+				60BFCC8428B7CB8000DBB2E9 /* OrderModel.swift in Sources */,
 				60CBB65928ABF80D006E46CB /* ProfileModel.swift in Sources */,
 				601DC92028A3C4EC00DFBF6F /* MapModel.swift in Sources */,
 				60D84A7D289C20C10070D042 /* MenuTableView.swift in Sources */,
 				6027054428A586CC00AB0545 /* CreateAccountView.swift in Sources */,
 				6027053328A52B1D00AB0545 /* ProfileView.swift in Sources */,
 				60D84A6E2899913C0070D042 /* MenuViewModel.swift in Sources */,
+				60BFCC8728B7CDF300DBB2E9 /* CheckOutViewModel.swift in Sources */,
 				604BDF4428A11389008DE572 /* CartModel.swift in Sources */,
 				601DC91B28A3BA0800DFBF6F /* MapViewModel.swift in Sources */,
 				605AD79028B23181009D54B9 /* ImagePicker.swift in Sources */,
+				60BFCC8B28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift in Sources */,
 				606EF55728B3D3C800D2B115 /* ProfileModelForListView.swift in Sources */,
 				6027054928A7EBF900AB0545 /* OvalTextFieldStyle.swift in Sources */,
 				6011140F289D3ADA001B5E25 /* UserAutorization.swift in Sources */,
+				60BFCC8928B7DBE600DBB2E9 /* FirebaseKeys.swift in Sources */,
 				6027053E28A549AB00AB0545 /* FullCartView.swift in Sources */,
 				6027053028A5101000AB0545 /* LoginView.swift in Sources */,
 				608523B9289C2CD200BFF8BB /* MenuScrollView.swift in Sources */,

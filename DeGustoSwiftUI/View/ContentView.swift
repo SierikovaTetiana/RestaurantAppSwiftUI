@@ -14,6 +14,7 @@ struct ContentView: View {
     @StateObject var userAutorization = UserAutorization()
     @StateObject var cartViewModel = CartViewModel()
     @StateObject var profileViewModel = ProfileViewModel()
+    @StateObject var checkOutViewModel = CheckOutViewModel()
     
     var body: some View {
         TabView(selection: $tabSelection) {
@@ -36,6 +37,7 @@ struct ContentView: View {
         .environmentObject(userAutorization)
         .environmentObject(cartViewModel)
         .environmentObject(profileViewModel)
+        .environmentObject(checkOutViewModel)
         .onAppear(perform: {
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()

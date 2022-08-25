@@ -20,22 +20,25 @@ struct ProfileView: View {
     @State var phoneNumber = ""
     @State var password = ""
     @State var email = ""
+    @State var address = ""
     @State var bDay = ""
     
     var body: some View {
-        VStack {
-            Spacer()
-            headerView
-            Spacer()
-            rowsView
-            logOut
-            Spacer()
-            socialButtons
+        ScrollView {
+            VStack {
+                Spacer()
+                headerView
+                Spacer()
+                rowsView
+                logOut
+                Spacer()
+                socialButtons
+            }
         }
         .onTapGesture { hideKeyboard() }
         .onAppear(perform: {
             if profileViewModel.userInfo.userDaysInApp == nil {
-                profileViewModel.getInfoAboutUser()
+                profileViewModel.getInfoAboutUser { }
             }
         })
         .navigationTitle("Профіль")
@@ -95,6 +98,7 @@ extension ProfileView {
             ProfileTextFieldView(image: ProfileModelForListView.phoneNumber.image, description: profileViewModel.userInfo.phoneNumber ?? ProfileModelForListView.phoneNumber.description, textIsEmpty: profileViewModel.userInfo.phoneNumber?.isEmpty ?? true, keyPathForUserInfo: \ProfileModel.phoneNumber, fieldToChangeInFirebase: ProfileModelForListView.phoneNumber.rawValue, text: phoneNumber)
             ProfileTextFieldView(image: ProfileModelForListView.password.image, description: ProfileModelForListView.password.description, textIsEmpty: false, keyPathForUserInfo: \ProfileModel.password, fieldToChangeInFirebase: ProfileModelForListView.password.rawValue, text: password)
             ProfileTextFieldView(image: ProfileModelForListView.email.image, description: profileViewModel.userInfo.email ?? ProfileModelForListView.email.description, textIsEmpty: profileViewModel.userInfo.email?.isEmpty ?? true, keyPathForUserInfo: \ProfileModel.email, fieldToChangeInFirebase: ProfileModelForListView.email.rawValue, text: email)
+            ProfileTextFieldView(image: ProfileModelForListView.address.image, description: profileViewModel.userInfo.address ?? ProfileModelForListView.address.description, textIsEmpty: profileViewModel.userInfo.address?.isEmpty ?? true, keyPathForUserInfo: \ProfileModel.address, fieldToChangeInFirebase: ProfileModelForListView.address.rawValue, text: address)
             ProfileTextFieldView(image: ProfileModelForListView.bDay.image, description: profileViewModel.userInfo.bDay ?? ProfileModelForListView.bDay.description, textIsEmpty: profileViewModel.userInfo.bDay?.isEmpty ?? true, keyPathForUserInfo: \ProfileModel.bDay, fieldToChangeInFirebase: ProfileModelForListView.bDay.rawValue, text: bDay)
         }.padding(.bottom)
     }
@@ -147,10 +151,6 @@ extension ProfileView {
                 }
             }
         }.padding()
-    }
-    
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 
