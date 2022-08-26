@@ -5,7 +5,6 @@
 //  Created by Tetiana Sierikova on 11.08.2022.
 //
 
-import Foundation
 import SwiftUI
 
 enum ProfileModelForListView: String, CaseIterable {

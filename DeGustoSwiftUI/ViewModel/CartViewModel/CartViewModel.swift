@@ -22,11 +22,11 @@ import Firebase
         }
         
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        let docRef = Firestore.firestore().collection("users").document(userUid)
+        let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
             guard let document = document, document.exists else { return }
             guard let firstData = document.data() else { return }
-            guard let cartData = firstData["cart"] as? Dictionary<String, Int> else { return }
+            guard let cartData = firstData[FirebaseKeys.cart] as? Dictionary<String, Int> else { return }
             for item in cartData {
                 for index in menu.indices {
                     if let indexOfDish = menu[index].data.firstIndex(where: { $0.dishTitle == item.key }) {
@@ -91,9 +91,9 @@ import Firebase
     
     func removeAllDishesFromCart() {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        let docRef = Firestore.firestore().collection("users").document(userUid)
+        let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.updateData([
-            "cart": FieldValue.delete(),
+            FirebaseKeys.cart: FieldValue.delete(),
         ]) { err in
             if let err = err {
                 print("Error updating document: \(err)")
@@ -105,16 +105,16 @@ import Firebase
     
     private func updateCountDataInFirebase(dishTitle: String, count: Int) {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        lazy var docRef = Firestore.firestore().collection("users").document(userUid)
+        lazy var docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         if count != 0 {
-            docRef.updateData(["cart.\(dishTitle)": count]) { err in
+            docRef.updateData(["\(FirebaseKeys.cart).\(dishTitle)": count]) { err in
                 if let err = err {
                     print("Error updating document: \(err)")
                 }
             }
         } else {
             docRef.updateData([
-                "cart.\(dishTitle)": FieldValue.delete(),
+                "\(FirebaseKeys.cart).\(dishTitle)": FieldValue.delete(),
             ]) { err in
                 if let err = err {
                     print("Error updating document: \(err)")
@@ -134,7 +134,7 @@ import Firebase
     }
     
     private func getDishImage(sectionTitle: String, dishImgName: String, completion: @escaping (UIImage) -> Void) {
-        let storageRef = Storage.storage().reference().child("menuImages").child(sectionTitle).child("\(dishImgName).jpg")
+        let storageRef = Storage.storage().reference().child(FirebaseKeys.menuImages).child(sectionTitle).child("\(dishImgName).jpg")
         storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
             if let error = error {
                 print("Error fetchDishImages", error)

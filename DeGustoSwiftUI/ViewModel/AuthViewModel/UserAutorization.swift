@@ -39,10 +39,10 @@ import Firebase
                 print(e.localizedDescription)
             } else {
                 guard let userID = authResult?.user.uid else {return}
-                Firestore.firestore().collection("users").document(userID).setData([
-                    "email": email,
-                    "phoneNumber": phoneNum,
-                    "data": Date().timeIntervalSince1970
+                Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userID).setData([
+                    FirebaseKeys.email: email,
+                    FirebaseKeys.phoneNumber: phoneNum,
+                    FirebaseKeys.data: Date().timeIntervalSince1970
                 ]) { err in
                     if let err = err {
                         print("Error adding document: \(err)")
@@ -80,7 +80,7 @@ import Firebase
                 print(e.localizedDescription)
             } else {
                 guard let userUid = authResult?.user.uid else { return }
-                Firestore.firestore().collection("users").document(userUid).setData([ "favorites": [] ])
+                Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid).setData([ FirebaseKeys.favorites: [] ])
                 self.isAnonymous = ((Auth.auth().currentUser?.isAnonymous) != nil)
             }
         }

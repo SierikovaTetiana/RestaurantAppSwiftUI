@@ -17,11 +17,11 @@ extension MenuViewModel {
         }
         
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        let docRef = Firestore.firestore().collection("users").document(userUid)
+        let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
             guard let document = document, document.exists else { return }
             guard let firstData = document.data() else { return }
-            if let favorites = firstData["favorites"] as? Array<String> {
+            if let favorites = firstData[FirebaseKeys.favorites] as? Array<String> {
                 for item in favorites {
                     for index in self.menu.indices {
                         if let indexOfDish = self.menu[index].data.firstIndex(where: { $0.dishTitle == item }) {
@@ -41,14 +41,14 @@ extension MenuViewModel {
         guard let dishIndex = dishIndex else { return }
         menu[sectionIndex].data[dishIndex].favorite = !menu[sectionIndex].data[dishIndex].favorite //change fave in menu section
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        let docRef = Firestore.firestore().collection("users").document(userUid)
+        let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
             if self.menu[sectionIndex].data[dishIndex].favorite {
-                docRef.updateData((["favorites": FieldValue.arrayUnion([self.menu[sectionIndex].data[dishIndex].dishTitle])]), completion: nil)
+                docRef.updateData(([FirebaseKeys.favorites: FieldValue.arrayUnion([self.menu[sectionIndex].data[dishIndex].dishTitle])]), completion: nil)
                 self.addDishToFaveSection(sectionIndex: sectionIndex, dishIndex: dishIndex)
                 self.menu = self.menu.sorted(by: { $0.order < $1.order })
             } else {
-                docRef.updateData((["favorites": FieldValue.arrayRemove([self.menu[sectionIndex].data[dishIndex].dishTitle])]), completion: nil)
+                docRef.updateData(([FirebaseKeys.favorites: FieldValue.arrayRemove([self.menu[sectionIndex].data[dishIndex].dishTitle])]), completion: nil)
                 self.removeDishFromFaveSection(sectionIndex: sectionIndex, dishIndex: dishIndex)
             }
         }

@@ -13,14 +13,14 @@ import Firebase
     @Published var sliderImages = [SliderImage]()
     
     func fetchSliderImages() {
-        let storageReference = Storage.storage().reference().child("sliderImages")
+        let storageReference = Storage.storage().reference().child(FirebaseKeys.sliderImages)
         storageReference.listAll { (result, error) in
             if let error = error {
                 print("Error fetchSliderImages listAll: ", error)
             }
             guard let result = result else { return }
             for item in result.items {
-                let storageRef = Storage.storage().reference().child("sliderImages/\(item.name)")
+                let storageRef = Storage.storage().reference().child("\(FirebaseKeys.sliderImages)/\(item.name)")
                 storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
                     if let error = error {
                         print("Error fetchSliderImages getData", error)

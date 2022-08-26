@@ -16,11 +16,11 @@ import Firebase
     
     func getInfoAboutUser() {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        let docRef = Firestore.firestore().collection("users").document(userUid)
+        let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 if let firstData = document.data() {
-                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String,address: firstData["address"] as? String, email: firstData["email"] as? String, bDay: firstData["bDay"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
+                    self.userInfo = ProfileModel(userName: firstData[FirebaseKeys.username] as? String, phoneNumber: firstData[FirebaseKeys.phoneNumber] as? String,address: firstData[FirebaseKeys.address] as? String, email: firstData[FirebaseKeys.email] as? String, bDay: firstData[FirebaseKeys.bDay] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData[FirebaseKeys.data] as? Double))
                 }
             }
             self.getUserPhoto()
@@ -71,7 +71,7 @@ import Firebase
     
     private func changeUserInfoInFirebase(whatToChange key: String, value: String) {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
-        let docRef = Firestore.firestore().collection("users").document(userUid)
+        let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
             docRef.updateData(([key: value]), completion: { err in
                 if let err = err {

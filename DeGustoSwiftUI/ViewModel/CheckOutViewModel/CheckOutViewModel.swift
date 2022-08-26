@@ -23,22 +23,22 @@ import Firebase
     func sendOrder(totalInfoAboutCart: TotalCart, completion: @escaping (Bool) -> Void) {
         guard let user = Auth.auth().currentUser?.uid else { return }
 
-        Firestore.firestore().collection("orders").document(user).setData([
-            "user": orderModel.name ?? "",
-            "phoneNumber": orderModel.phone ?? "",
-            "delivery": orderModel.takeAway ?? "",
-            "deliveryAddress": orderModel.deliveryAddress ?? "",
-            "comment": orderModel.comment ?? "",
-            "readyTo": calculateReadyToTime(),
-            "userID": orderModel.userID ?? "",
-            "totalPrice": totalInfoAboutCart.totalPrice
+        Firestore.firestore().collection(FirebaseKeys.collectionOrders).document(user).setData([
+            FirebaseKeys.user: orderModel.name ?? "",
+            FirebaseKeys.phoneNumber: orderModel.phone ?? "",
+            FirebaseKeys.delivery: orderModel.takeAway ?? "",
+            FirebaseKeys.deliveryAddress: orderModel.deliveryAddress ?? "",
+            FirebaseKeys.comment: orderModel.comment ?? "",
+            FirebaseKeys.readyTo: calculateReadyToTime(),
+            FirebaseKeys.userID: orderModel.userID ?? "",
+            FirebaseKeys.totalPrice: totalInfoAboutCart.totalPrice
         ]) { err in
             if let err = err {
                 print("Error writing document: \(err)")
             } else {
                 var totalOrder = [String:String]()
                 for dish in totalInfoAboutCart.dishes {
-                    totalOrder["cart.\(dish.dishTitle)"] = "\(dish.count)"
+                    totalOrder["\(FirebaseKeys.cart).\(dish.dishTitle)"] = "\(dish.count)"
                 }
                 Firestore.firestore().collection("orders").document(user).updateData(totalOrder) { err in
                     if let err = err {
@@ -62,8 +62,3 @@ import Firebase
         return readyToDate
     }
 }
-
-
-
-
-//TODO: add all Firebase keys in the separate file
