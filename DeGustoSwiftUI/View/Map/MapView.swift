@@ -57,6 +57,7 @@ struct MapView: View {
                             .imageScale(.large)
                     })
         }.accentColor(Color("darkGreen"))
+            .navigationViewStyle(StackNavigationViewStyle())
     }
 }
 

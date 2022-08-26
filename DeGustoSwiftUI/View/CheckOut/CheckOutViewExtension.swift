@@ -41,7 +41,7 @@ extension CheckOutView {
             Text("Коментар до замовлення")
                 .font(.system(.title3, design: .rounded))
                 .foregroundColor(Color("darkGreen"))
-            TextField("Ваші побажання", text: $commentToOrder)
+            TextField(checkOutViewModel.orderModel.comment ?? "Ваші побажання", text: $commentToOrder)
                 .multilineTextAlignment(.leading)
             Divider()
         }.padding()

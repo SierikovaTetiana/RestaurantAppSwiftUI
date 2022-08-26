@@ -46,10 +46,13 @@ struct CheckOutView: View {
                 }
             }
         })
-        .onDisappear(perform: { performChanges() })
+        .onDisappear(perform: {
+            print("onDisappear")
+            performChanges() })
     }
     
     func performChanges() {
+        print("performChanges")
         let takeAway = takeAwayOrDelivery == 0 ? TakeAway.takeAway.description : TakeAway.delivery.description
         checkOutViewModel.changeUserCheckOutInfo(keyPathForUserInfo: \OrderModel.takeAway, fieldToChangeInFirebase: "delivery", valueToChange: takeAway)
         checkOutViewModel.changeUserCheckOutInfo(keyPathForUserInfo: \OrderModel.comment, fieldToChangeInFirebase: "comment", valueToChange: commentToOrder)
