@@ -20,7 +20,7 @@ import Firebase
         orderModel[keyPath: keyPathForUserInfo] = valueToChange
     }
     
-    func sendOrder(totalInfoAboutCart: TotalCart) {
+    func sendOrder(totalInfoAboutCart: TotalCart, completion: @escaping (Bool) -> Void) {
         guard let user = Auth.auth().currentUser?.uid else { return }
 
         Firestore.firestore().collection("orders").document(user).setData([
@@ -36,7 +36,6 @@ import Firebase
             if let err = err {
                 print("Error writing document: \(err)")
             } else {
-                //"Заказ успешно отправлен"
                 var totalOrder = [String:String]()
                 for dish in totalInfoAboutCart.dishes {
                     totalOrder["cart.\(dish.dishTitle)"] = "\(dish.count)"
@@ -46,6 +45,7 @@ import Firebase
                         print("Error updating document: \(err)")
                     } else {
                         print("Document successfully updated")
+                        completion(true)
                     }
                 }
             }

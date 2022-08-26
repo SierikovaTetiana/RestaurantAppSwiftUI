@@ -43,6 +43,7 @@
 		60BFCC8728B7CDF300DBB2E9 /* CheckOutViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8628B7CDF300DBB2E9 /* CheckOutViewModel.swift */; };
 		60BFCC8928B7DBE600DBB2E9 /* FirebaseKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8828B7DBE500DBB2E9 /* FirebaseKeys.swift */; };
 		60BFCC8B28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */; };
+		60BFCC8D28B9268700DBB2E9 /* MessageBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8C28B9268700DBB2E9 /* MessageBanner.swift */; };
 		60CBB65928ABF80D006E46CB /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CBB65828ABF80D006E46CB /* ProfileModel.swift */; };
 		60D84A6E2899913C0070D042 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6D2899913C0070D042 /* MenuViewModel.swift */; };
 		60D84A70289A555D0070D042 /* SliderImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6F289A555D0070D042 /* SliderImageModel.swift */; };
@@ -89,6 +90,7 @@
 		60BFCC8628B7CDF300DBB2E9 /* CheckOutViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutViewModel.swift; sourceTree = "<group>"; };
 		60BFCC8828B7DBE500DBB2E9 /* FirebaseKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseKeys.swift; sourceTree = "<group>"; };
 		60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutViewExtension.swift; sourceTree = "<group>"; };
+		60BFCC8C28B9268700DBB2E9 /* MessageBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBanner.swift; sourceTree = "<group>"; };
 		60CBB65828ABF80D006E46CB /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		60D84A6D2899913C0070D042 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		60D84A6F289A555D0070D042 /* SliderImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderImageModel.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				6027054828A7EBF900AB0545 /* OvalTextFieldStyle.swift */,
 				605AD78F28B23181009D54B9 /* ImagePicker.swift */,
 				60BFCC7F28B6420600DBB2E9 /* ViewExtension.swift */,
+				60BFCC8C28B9268700DBB2E9 /* MessageBanner.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -532,6 +535,7 @@
 				606EF55528B3C90300D2B115 /* ProfileTextFieldView.swift in Sources */,
 				60D84A77289A75B10070D042 /* MenuModel.swift in Sources */,
 				601DC91328A2E1D500DFBF6F /* TotalInTheCartButton.swift in Sources */,
+				60BFCC8D28B9268700DBB2E9 /* MessageBanner.swift in Sources */,
 				607290272897AE0300C6479E /* DeGustoSwiftUIApp.swift in Sources */,
 				60D84A79289A8BDD0070D042 /* SliderImagesViewModel.swift in Sources */,
 				60BFCC8428B7CB8000DBB2E9 /* OrderModel.swift in Sources */,

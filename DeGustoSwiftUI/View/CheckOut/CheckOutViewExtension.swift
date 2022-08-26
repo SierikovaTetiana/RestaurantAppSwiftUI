@@ -102,7 +102,9 @@ extension CheckOutView {
     var sendOrder: some View {
         Button(action: {
             performChanges()
-            checkOutViewModel.sendOrder(totalInfoAboutCart: cartViewModel.totalCart)
+            checkOutViewModel.sendOrder(totalInfoAboutCart: cartViewModel.totalCart){ isSuccess in
+                showBanner = isSuccess
+            }
         }) {
             Text("Відправити замовлення")
                 .foregroundColor(.white)

@@ -21,6 +21,9 @@ struct CheckOutView: View {
     @State var userName = ""
     @State var phoneNumber = ""
     @State var address = ""
+    @State var showBanner = false
+    @State var bannerData: BannerModifier.BannerData = BannerModifier.BannerData(title: "Замовлення успішно відправлено", detail: "Чекайте інформацію про готовність", type: .Success)
+    
     
     var body: some View {
         ScrollView {
@@ -34,7 +37,7 @@ struct CheckOutView: View {
                 sendOrder
                     .navigationBarBackButtonHidden(true)
                     .navigationBarItems(leading: backNavButton)
-            }
+            }.banner(data: $bannerData, show: $showBanner)
         }
         .onTapGesture { hideKeyboard() }
         .onAppear(perform: {
