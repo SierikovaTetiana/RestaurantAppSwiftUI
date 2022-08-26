@@ -13,7 +13,7 @@ struct OrderModel {
     var phone: String?
     var comment: String?
     var deliveryAddress: String?
-    var readyToDate:  Date?
+    var readyToDate: Date?
     var userID: String?
 }
 

@@ -14,14 +14,13 @@ import Firebase
     private lazy var url = documents.appendingPathComponent("ProfilePhoto.png")
     @Published var userInfo = ProfileModel()
     
-    func getInfoAboutUser(completion: @escaping () -> ()) {
+    func getInfoAboutUser() {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection("users").document(userUid)
         docRef.getDocument { (document, error) in
             if let document = document, document.exists {
                 if let firstData = document.data() {
-                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String, email: firstData["email"] as? String, bDay: firstData["bDay"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
-                    completion()
+                    self.userInfo = ProfileModel(userName: firstData["username"] as? String, phoneNumber: firstData["phoneNumber"] as? String,address: firstData["address"] as? String, email: firstData["email"] as? String, bDay: firstData["bDay"] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData["data"] as? Double))
                 }
             }
             self.getUserPhoto()

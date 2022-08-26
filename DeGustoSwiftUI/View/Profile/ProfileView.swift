@@ -38,7 +38,7 @@ struct ProfileView: View {
         .onTapGesture { hideKeyboard() }
         .onAppear(perform: {
             if profileViewModel.userInfo.userDaysInApp == nil {
-                profileViewModel.getInfoAboutUser { }
+                profileViewModel.getInfoAboutUser()
             }
         })
         .navigationTitle("Профіль")

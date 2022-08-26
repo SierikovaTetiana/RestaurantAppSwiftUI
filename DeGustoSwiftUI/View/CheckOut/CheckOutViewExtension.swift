@@ -41,7 +41,14 @@ extension CheckOutView {
             Text("Коментар до замовлення")
                 .font(.system(.title3, design: .rounded))
                 .foregroundColor(Color("darkGreen"))
-            TextField(checkOutViewModel.orderModel.comment ?? "Ваші побажання", text: $commentToOrder)
+            TextField("", text: $commentToOrder)
+                .placeholder(when: commentToOrder.isEmpty) {
+                Text(checkOutViewModel.orderModel.comment == nil ||
+                     checkOutViewModel.orderModel.comment == "" ? "Ваші побажання" : checkOutViewModel.orderModel.comment!)
+                        .foregroundColor(checkOutViewModel.orderModel.comment == nil ||
+                                         checkOutViewModel.orderModel.comment == ""
+                                         ? .gray : .black)
+            }
                 .multilineTextAlignment(.leading)
             Divider()
         }.padding()
@@ -95,7 +102,7 @@ extension CheckOutView {
     var sendOrder: some View {
         Button(action: {
             performChanges()
-            checkOutViewModel.sendOrder()
+            checkOutViewModel.sendOrder(totalInfoAboutCart: cartViewModel.totalCart)
         }) {
             Text("Відправити замовлення")
                 .foregroundColor(.white)
