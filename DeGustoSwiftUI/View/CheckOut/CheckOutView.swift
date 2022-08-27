@@ -24,7 +24,6 @@ struct CheckOutView: View {
     @State var showBanner = false
     @State var bannerData: BannerModifier.BannerData = BannerModifier.BannerData(title: "Замовлення успішно відправлено", detail: "Чекайте інформацію про готовність", type: .Success)
     
-    
     var body: some View {
         ScrollView {
             VStack {

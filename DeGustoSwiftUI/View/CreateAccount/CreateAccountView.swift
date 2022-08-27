@@ -29,7 +29,7 @@ struct CreateAccountView: View {
             Spacer()
                 .navigationBarBackButtonHidden(true)
                 .navigationBarItems(leading: backNavButton)
-        }
+        }.onTapGesture { hideKeyboard() }
     }
 }
 
@@ -46,7 +46,7 @@ extension CreateAccountView {
                 .padding(.bottom)
                 .textFieldStyle(OvalTextFieldStyle())
             
-            TextField("Пароль", text: $password)
+            SecureField("Пароль", text: $password)
                 .padding(.top)
                 .textFieldStyle(OvalTextFieldStyle())
             

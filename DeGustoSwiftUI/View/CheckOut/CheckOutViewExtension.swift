@@ -104,6 +104,7 @@ extension CheckOutView {
             performChanges()
             checkOutViewModel.sendOrder(totalInfoAboutCart: cartViewModel.totalCart){ isSuccess in
                 showBanner = isSuccess
+                cartViewModel.removeAllDishesFromCart()
             }
         }) {
             Text("Відправити замовлення")

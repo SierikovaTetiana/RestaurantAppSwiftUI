@@ -84,4 +84,3 @@ struct MenuView_Previews: PreviewProvider {
         MenuView(tabSelection: .constant(1))
     }
 }
-//TODO: add animations

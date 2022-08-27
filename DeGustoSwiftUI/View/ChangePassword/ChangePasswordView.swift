@@ -28,7 +28,7 @@ struct ChangePasswordView: View {
             Spacer()
                 .navigationBarBackButtonHidden(true)
                 .navigationBarItems(leading: backNavButton)
-        }
+        }.onTapGesture { hideKeyboard() }
     }
 }
 
@@ -48,11 +48,11 @@ extension ChangePasswordView {
     
     var textFields: some View {
         VStack(alignment: .leading) {
-            TextField("Старий пароль", text: $oldPassword)
+            SecureField("Старий пароль", text: $oldPassword)
                 .padding(.bottom)
                 .textFieldStyle(OvalTextFieldStyle())
             
-            TextField("Новий пароль", text: $newPassword)
+            SecureField("Новий пароль", text: $newPassword)
                 .padding(.top)
                 .textFieldStyle(OvalTextFieldStyle())
             

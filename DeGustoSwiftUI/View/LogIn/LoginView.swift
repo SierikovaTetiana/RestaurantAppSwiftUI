@@ -41,6 +41,7 @@ struct LoginView: View {
                         userAutorization.forgotPassword(email: forgotPasswordEmail)
                     }
                 })
+                .onTapGesture { hideKeyboard() }
         }
     }
 }
@@ -59,7 +60,7 @@ extension LoginView {
                 .padding(.bottom)
                 .textFieldStyle(OvalTextFieldStyle())
             
-            TextField("Пароль", text: $password)
+            SecureField("Пароль", text: $password)
                 .padding(.top)
                 .textFieldStyle(OvalTextFieldStyle())
         }.padding()
@@ -108,5 +109,4 @@ extension LoginView {
         }.padding()
     }
 }
-//TODO: secure password text fields
 //TODO: implement facebook login

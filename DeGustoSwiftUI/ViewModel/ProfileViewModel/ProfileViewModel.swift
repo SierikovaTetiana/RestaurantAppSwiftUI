@@ -9,15 +9,21 @@ import SwiftUI
 import Firebase
 
 @MainActor final class ProfileViewModel: ObservableObject {
+    @Published var userInfo = ProfileModel()
+    @Published var isPresentingAlertError = false
+    @Published var errorDescription = ""
     private let defaults = UserDefaults.standard
     private let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
     private lazy var url = documents.appendingPathComponent("ProfilePhoto.png")
-    @Published var userInfo = ProfileModel()
     
     func getInfoAboutUser() {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
+            }
             if let document = document, document.exists {
                 if let firstData = document.data() {
                     self.userInfo = ProfileModel(userName: firstData[FirebaseKeys.username] as? String, phoneNumber: firstData[FirebaseKeys.phoneNumber] as? String,address: firstData[FirebaseKeys.address] as? String, email: firstData[FirebaseKeys.email] as? String, bDay: firstData[FirebaseKeys.bDay] as? String, userDaysInApp: self.countUserDaysInApp(days: firstData[FirebaseKeys.data] as? Double))
@@ -49,7 +55,8 @@ import Firebase
             userInfo.userPhoto = Image(uiImage: uiImage)
         } catch {
             userInfo.userPhoto = Image(systemName: "person")
-            print("Unable to Download User Photo from Disk (\(error))")
+            isPresentingAlertError = true
+            errorDescription = error.localizedDescription
         }
     }
     
@@ -60,7 +67,8 @@ import Firebase
             defaults.set(url, forKey: "ProfilePhoto")
             userInfo.userPhoto = Image(uiImage: image)
         } catch {
-            print("Unable to Write Data to Disk (\(error))")
+            isPresentingAlertError = true
+            errorDescription = error.localizedDescription
         }
     }
     
@@ -74,8 +82,9 @@ import Firebase
         let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
             docRef.updateData(([key: value]), completion: { err in
-                if let err = err {
-                    print("Error updating document: \(err)")
+                if let error = err {
+                    self.isPresentingAlertError = true
+                    self.errorDescription = error.localizedDescription
                 } else {
                     print("Document successfully updated")
                 }})
@@ -87,12 +96,14 @@ import Firebase
         let user = Auth.auth().currentUser
         let credential = EmailAuthProvider.credential(withEmail: userEmail, password: oldPassword)
         user?.reauthenticate(with: credential, completion: { (result, error) in
-            if let err = error {
-                print("Error re-auth password: \(err)")
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 user?.updatePassword(to: newPassword) { err in
-                    if let err = err {
-                        print("Error updating password: \(err)")
+                    if let error = err {
+                        self.isPresentingAlertError = true
+                        self.errorDescription = error.localizedDescription
                     } else {
                         print("Password successfully updated")
                     }}

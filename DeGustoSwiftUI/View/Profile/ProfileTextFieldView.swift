@@ -98,7 +98,6 @@ extension ProfileTextFieldView {
     var editButton: some View {
         return Button {
             showingAlertChangeUserInfo = true
-            print("Edit tapped")
         } label: {
             Image(systemName: "pencil")
                 .resizable()
@@ -134,6 +133,3 @@ struct SwiftUIWrapper<T: View>: UIViewControllerRepresentable {
     }
     func updateUIViewController(_ uiViewController: UIHostingController<T>, context: Context) {}
 }
-
-
-//TODO: Dismiss keyboard when tap outside in other(not Profile) views
