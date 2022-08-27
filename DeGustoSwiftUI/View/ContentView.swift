@@ -16,7 +16,7 @@ struct ContentView: View {
     @StateObject var profileViewModel = ProfileViewModel()
     @StateObject var checkOutViewModel = CheckOutViewModel()
     @ObservedObject var monitor = NetworkMonitor()
-    @State private var showAlertSheet = false
+    @State private var showAlertNetworkMonitor = false
     
     var body: some View {
         TabView(selection: $tabSelection) {
@@ -40,20 +40,19 @@ struct ContentView: View {
                 dismissButton: .default(Text("Добре"))
             )
         })
-        .alert(isPresented: $showAlertSheet, content: {
-                    if monitor.isConnected {
-                        return Alert(title: Text("Success!"), message: Text("The network request can be performed"), dismissButton: .default(Text("OK")))
-                    }
-                    return Alert(title: Text("No Internet Connection"), message: Text("Please enable Wifi or Celluar data"), dismissButton: .default(Text("Cancel")))
-                })
+        .alert(isPresented: $showAlertNetworkMonitor, content: {
+            return Alert(title: Text("Немає інтернет зв'язку"), message: Text("Будь ласка перевірте інтернет з'єднання та спробуйте ще раз"), dismissButton: .default(Text("Добре")))
+        })
         .environmentObject(mainViewModel)
         .environmentObject(sliderImagesViewModel)
         .environmentObject(userAutorization)
         .environmentObject(cartViewModel)
         .environmentObject(profileViewModel)
         .environmentObject(checkOutViewModel)
+        .onChange(of: monitor.isConnected, perform: { _ in
+            showAlertNetworkMonitor = monitor.isConnected ? false : true
+        })
         .onAppear(perform: {
-            self.showAlertSheet = true
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
@@ -73,4 +72,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-//TODO: check network
