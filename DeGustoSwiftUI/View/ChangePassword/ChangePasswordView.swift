@@ -29,6 +29,13 @@ struct ChangePasswordView: View {
                 .navigationBarBackButtonHidden(true)
                 .navigationBarItems(leading: backNavButton)
         }.onTapGesture { hideKeyboard() }
+            .alert(isPresented: $profileViewModel.isPresentingAlertError, content: {
+                Alert(
+                    title: Text("Сталася помилка"),
+                    message: Text(profileViewModel.errorDescription),
+                    dismissButton: .default(Text("Добре"))
+                )
+            })
     }
 }
 

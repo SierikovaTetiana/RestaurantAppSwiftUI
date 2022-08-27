@@ -19,6 +19,10 @@ extension MenuViewModel {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
+            }
             guard let document = document, document.exists else { return }
             guard let firstData = document.data() else { return }
             if let favorites = firstData[FirebaseKeys.favorites] as? Array<String> {
@@ -43,6 +47,10 @@ extension MenuViewModel {
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
+            }
             if self.menu[sectionIndex].data[dishIndex].favorite {
                 docRef.updateData(([FirebaseKeys.favorites: FieldValue.arrayUnion([self.menu[sectionIndex].data[dishIndex].dishTitle])]), completion: nil)
                 self.addDishToFaveSection(sectionIndex: sectionIndex, dishIndex: dishIndex)

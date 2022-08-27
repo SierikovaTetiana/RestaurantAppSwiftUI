@@ -12,6 +12,8 @@ import Firebase
     
     @Published var isAnonymous: Bool?
     @Published var forgotPasswordEmailWasSent = false
+    @Published var isPresentingAlertError = false
+    @Published var errorDescription = ""
     
     func autorizeUser() {
         if Auth.auth().currentUser != nil {
@@ -24,8 +26,9 @@ import Firebase
     
     func login(withEmail email: String, password: String) {
         Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-            if let e = error {
-                print(e.localizedDescription)
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 self.isAnonymous = false
             }
@@ -35,8 +38,9 @@ import Firebase
     func createAccount(withEmail email: String, password: String, phoneNum: String) {
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         Auth.auth().currentUser?.link (with: credential) { authResult, error in
-            if let e = error {
-                print(e.localizedDescription)
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 guard let userID = authResult?.user.uid else {return}
                 Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userID).setData([
@@ -44,8 +48,9 @@ import Firebase
                     FirebaseKeys.phoneNumber: phoneNum,
                     FirebaseKeys.data: Date().timeIntervalSince1970
                 ]) { err in
-                    if let err = err {
-                        print("Error adding document: \(err)")
+                    if let error = error {
+                        self.isPresentingAlertError = true
+                        self.errorDescription = error.localizedDescription
                     } else {
                         print("Document added with UserID")
                     }
@@ -60,6 +65,8 @@ import Firebase
             self.isAnonymous = true
             signInAnonymously()
         } catch let signOutError as NSError {
+            self.isPresentingAlertError = true
+            self.errorDescription = signOutError.localizedDescription
             print("Error signing out: ", signOutError)
         }
     }
@@ -67,7 +74,8 @@ import Firebase
     func forgotPassword(email: String) {
         Auth.auth().sendPasswordReset(withEmail: email) { error in
             if let error = error {
-                print(error.localizedDescription)
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 self.forgotPasswordEmailWasSent = true
             }
@@ -76,8 +84,9 @@ import Firebase
     
     private func signInAnonymously() {
         Auth.auth().signInAnonymously { authResult, error in
-            if let e = error {
-                print(e.localizedDescription)
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 guard let userUid = authResult?.user.uid else { return }
                 Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid).setData([ FirebaseKeys.favorites: [] ])

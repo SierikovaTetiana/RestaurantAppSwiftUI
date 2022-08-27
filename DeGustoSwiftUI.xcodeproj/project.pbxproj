@@ -45,6 +45,7 @@
 		60BFCC8B28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */; };
 		60BFCC8D28B9268700DBB2E9 /* MessageBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC8C28B9268700DBB2E9 /* MessageBanner.swift */; };
 		60BFCC9428B9F9D100DBB2E9 /* ProfileViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC9328B9F9D100DBB2E9 /* ProfileViewExtension.swift */; };
+		60BFCC9628BA62DD00DBB2E9 /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BFCC9528BA62DD00DBB2E9 /* NetworkMonitor.swift */; };
 		60CBB65928ABF80D006E46CB /* ProfileModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CBB65828ABF80D006E46CB /* ProfileModel.swift */; };
 		60D84A6E2899913C0070D042 /* MenuViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6D2899913C0070D042 /* MenuViewModel.swift */; };
 		60D84A70289A555D0070D042 /* SliderImageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D84A6F289A555D0070D042 /* SliderImageModel.swift */; };
@@ -93,6 +94,7 @@
 		60BFCC8A28B7FCFE00DBB2E9 /* CheckOutViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckOutViewExtension.swift; sourceTree = "<group>"; };
 		60BFCC8C28B9268700DBB2E9 /* MessageBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBanner.swift; sourceTree = "<group>"; };
 		60BFCC9328B9F9D100DBB2E9 /* ProfileViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewExtension.swift; sourceTree = "<group>"; };
+		60BFCC9528BA62DD00DBB2E9 /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		60CBB65828ABF80D006E46CB /* ProfileModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileModel.swift; sourceTree = "<group>"; };
 		60D84A6D2899913C0070D042 /* MenuViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewModel.swift; sourceTree = "<group>"; };
 		60D84A6F289A555D0070D042 /* SliderImageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderImageModel.swift; sourceTree = "<group>"; };
@@ -306,16 +308,16 @@
 		607290342897B0D000C6479E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				60BFCC7A28B60AC500DBB2E9 /* ChangePassword */,
 				607290282897AE0300C6479E /* ContentView.swift */,
 				6027054728A7EB2C00AB0545 /* Components */,
-				6027054228A586B000AB0545 /* CreateAccount */,
 				6027053F28A552DB00AB0545 /* CheckOut */,
-				6027053728A5465700AB0545 /* Cart */,
-				6027052E28A50FE600AB0545 /* LogIn */,
 				6027052D28A50FDD00AB0545 /* Profile */,
-				60D84A71289A64FC0070D042 /* Menu */,
 				604BDF4028A0FE44008DE572 /* Map */,
+				6027054228A586B000AB0545 /* CreateAccount */,
+				6027052E28A50FE600AB0545 /* LogIn */,
+				60BFCC7A28B60AC500DBB2E9 /* ChangePassword */,
+				6027053728A5465700AB0545 /* Cart */,
+				60D84A71289A64FC0070D042 /* Menu */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -339,9 +341,10 @@
 				60BFCC8528B7CDB300DBB2E9 /* CheckOutViewModel */,
 				6027053428A52EDF00AB0545 /* ProfileViewModel */,
 				601DC91928A3B9E700DFBF6F /* MapViewModel */,
-				601DC91828A3B9D900DFBF6F /* MenuViewModel */,
 				60ABEEF828AAA7340094CFFE /* AuthViewModel */,
 				60BFCC8128B6BD2100DBB2E9 /* CartViewModel */,
+				601DC91828A3B9D900DFBF6F /* MenuViewModel */,
+				60BFCC9528BA62DD00DBB2E9 /* NetworkMonitor.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -562,6 +565,7 @@
 				6027053028A5101000AB0545 /* LoginView.swift in Sources */,
 				608523B9289C2CD200BFF8BB /* MenuScrollView.swift in Sources */,
 				6027054128A552EF00AB0545 /* CheckOutView.swift in Sources */,
+				60BFCC9628BA62DD00DBB2E9 /* NetworkMonitor.swift in Sources */,
 				608523BB289D1B7000BFF8BB /* FaveButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

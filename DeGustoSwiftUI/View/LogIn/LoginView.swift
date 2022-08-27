@@ -42,6 +42,13 @@ struct LoginView: View {
                     }
                 })
                 .onTapGesture { hideKeyboard() }
+                .alert(isPresented: $userAutorization.isPresentingAlertError, content: {
+                    Alert(
+                        title: Text("Сталася помилка"),
+                        message: Text(userAutorization.errorDescription),
+                        dismissButton: .default(Text("Добре"))
+                    )
+                })
         }
     }
 }

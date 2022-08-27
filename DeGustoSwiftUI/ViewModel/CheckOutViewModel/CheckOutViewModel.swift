@@ -11,6 +11,8 @@ import Firebase
 @MainActor final class CheckOutViewModel: ObservableObject {
     
     @Published var orderModel = OrderModel()
+    @Published var isPresentingAlertError = false
+    @Published var errorDescription = ""
     
     func changeUserCheckOutInfo(keyPathForUserInfo: WritableKeyPath<OrderModel, String?>, fieldToChangeInFirebase: String, valueToChange: String) {
         orderModel[keyPath: keyPathForUserInfo] = valueToChange
@@ -22,7 +24,7 @@ import Firebase
     
     func sendOrder(totalInfoAboutCart: TotalCart, completion: @escaping (Bool) -> Void) {
         guard let user = Auth.auth().currentUser?.uid else { return }
-
+        
         Firestore.firestore().collection(FirebaseKeys.collectionOrders).document(user).setData([
             FirebaseKeys.user: orderModel.name ?? "",
             FirebaseKeys.phoneNumber: orderModel.phone ?? "",
@@ -32,17 +34,19 @@ import Firebase
             FirebaseKeys.readyTo: calculateReadyToTime(),
             FirebaseKeys.userID: orderModel.userID ?? "",
             FirebaseKeys.totalPrice: totalInfoAboutCart.totalPrice
-        ]) { err in
-            if let err = err {
-                print("Error writing document: \(err)")
+        ]) { error in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 var totalOrder = [String:String]()
                 for dish in totalInfoAboutCart.dishes {
                     totalOrder["\(FirebaseKeys.cart).\(dish.dishTitle)"] = "\(dish.count)"
                 }
-                Firestore.firestore().collection("orders").document(user).updateData(totalOrder) { err in
-                    if let err = err {
-                        print("Error updating document: \(err)")
+                Firestore.firestore().collection("orders").document(user).updateData(totalOrder) { error in
+                    if let error = error {
+                        self.isPresentingAlertError = true
+                        self.errorDescription = error.localizedDescription
                     } else {
                         print("Document successfully updated")
                         completion(true)

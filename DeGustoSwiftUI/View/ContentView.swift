@@ -15,6 +15,8 @@ struct ContentView: View {
     @StateObject var cartViewModel = CartViewModel()
     @StateObject var profileViewModel = ProfileViewModel()
     @StateObject var checkOutViewModel = CheckOutViewModel()
+    @ObservedObject var monitor = NetworkMonitor()
+    @State private var showAlertSheet = false
     
     var body: some View {
         TabView(selection: $tabSelection) {
@@ -31,7 +33,19 @@ struct ContentView: View {
                     Text("Ми на мапі")
                 }
                 .tag(2)
-        }
+        }.alert(isPresented: $userAutorization.isPresentingAlertError, content: {
+            Alert(
+                title: Text("Сталася помилка"),
+                message: Text(userAutorization.errorDescription),
+                dismissButton: .default(Text("Добре"))
+            )
+        })
+        .alert(isPresented: $showAlertSheet, content: {
+                    if monitor.isConnected {
+                        return Alert(title: Text("Success!"), message: Text("The network request can be performed"), dismissButton: .default(Text("OK")))
+                    }
+                    return Alert(title: Text("No Internet Connection"), message: Text("Please enable Wifi or Celluar data"), dismissButton: .default(Text("Cancel")))
+                })
         .environmentObject(mainViewModel)
         .environmentObject(sliderImagesViewModel)
         .environmentObject(userAutorization)
@@ -39,6 +53,7 @@ struct ContentView: View {
         .environmentObject(profileViewModel)
         .environmentObject(checkOutViewModel)
         .onAppear(perform: {
+            self.showAlertSheet = true
             let tabBarAppearance = UITabBarAppearance()
             tabBarAppearance.configureWithOpaqueBackground()
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
@@ -58,3 +73,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+//TODO: check network

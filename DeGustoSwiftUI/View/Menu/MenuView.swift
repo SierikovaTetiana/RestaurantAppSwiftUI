@@ -35,7 +35,27 @@ struct MenuView: View {
                             if !cartViewModel.cartDishData.isEmpty {
                                 TotalInTheCartButton(screenWidth: geometry.size.width)
                             }})
-                }
+                }.alert(isPresented: $mainViewModel.isPresentingAlertError, content: {
+                    Alert(
+                        title: Text("Сталася помилка"),
+                        message: Text(mainViewModel.errorDescription),
+                        dismissButton: .default(Text("Добре"))
+                    )
+                })
+                .alert(isPresented: $sliderImagesViewModel.isPresentingAlertError, content: {
+                    Alert(
+                        title: Text("Сталася помилка"),
+                        message: Text(sliderImagesViewModel.errorDescription),
+                        dismissButton: .default(Text("Добре"))
+                    )
+                })
+                .alert(isPresented: $cartViewModel.isPresentingAlertError, content: {
+                    Alert(
+                        title: Text("Сталася помилка"),
+                        message: Text(cartViewModel.errorDescription),
+                        dismissButton: .default(Text("Добре"))
+                    )
+                })
                 .onChange(of: userAutorization.isAnonymous, perform: {_ in
                     cartViewModel.fetchUserCart(menu: mainViewModel.menu)
                     mainViewModel.fetchUserFavorites {

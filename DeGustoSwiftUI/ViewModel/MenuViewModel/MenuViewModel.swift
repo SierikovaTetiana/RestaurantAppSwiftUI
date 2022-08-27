@@ -12,6 +12,8 @@ import Firebase
     
     @Published var menu = [SectionData]()
     @Published var isLoading = false
+    @Published var isPresentingAlertError = false
+    @Published var errorDescription = ""
     let faveSection = "Улюблене"
     
     func fetchMenu(completion: @escaping () -> ()) {
@@ -53,6 +55,8 @@ import Firebase
             let storageRef = Storage.storage().reference().child(FirebaseKeys.sectionImages).child("\(menu[index].sectionImgName).jpg")
             storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
                 if let error = error {
+                    self.isPresentingAlertError = true
+                    self.errorDescription = error.localizedDescription
                     print("Error fetchSectionMenuImage", error)
                 } else {
                     guard let imgData = data else { return }
@@ -75,6 +79,8 @@ import Firebase
             let storageRef = Storage.storage().reference().child(FirebaseKeys.menuImages).child(sectionTitle).child("\(menu[sectionIndex].data[index].dishImgName).jpg")
             storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
                 if let error = error {
+                    self.isPresentingAlertError = true
+                    self.errorDescription = error.localizedDescription
                     print("Error fetchDishImages", error)
                 } else {
                     guard let imgData = data else { return }

@@ -12,6 +12,8 @@ import Firebase
     
     @Published var cartDishData = [CartModel]()
     @Published var totalCart = TotalCart()
+    @Published var isPresentingAlertError = false
+    @Published var errorDescription = ""
     let faveSectionInMenu = "Улюблене"
     
     func fetchUserCart(menu: [SectionData]) {
@@ -24,6 +26,10 @@ import Firebase
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.getDocument { (document, error) in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
+            }
             guard let document = document, document.exists else { return }
             guard let firstData = document.data() else { return }
             guard let cartData = firstData[FirebaseKeys.cart] as? Dictionary<String, Int> else { return }
@@ -94,9 +100,10 @@ import Firebase
         let docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         docRef.updateData([
             FirebaseKeys.cart: FieldValue.delete(),
-        ]) { err in
-            if let err = err {
-                print("Error updating document: \(err)")
+        ]) { error in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 self.cartDishData.removeAll()
             }
@@ -107,17 +114,19 @@ import Firebase
         guard let userUid = Auth.auth().currentUser?.uid else { return }
         lazy var docRef = Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid)
         if count != 0 {
-            docRef.updateData(["\(FirebaseKeys.cart).\(dishTitle)": count]) { err in
-                if let err = err {
-                    print("Error updating document: \(err)")
+            docRef.updateData(["\(FirebaseKeys.cart).\(dishTitle)": count]) { error in
+                if let error = error {
+                    self.isPresentingAlertError = true
+                    self.errorDescription = error.localizedDescription
                 }
             }
         } else {
             docRef.updateData([
                 "\(FirebaseKeys.cart).\(dishTitle)": FieldValue.delete(),
-            ]) { err in
-                if let err = err {
-                    print("Error updating document: \(err)")
+            ]) { error in
+                if let error = error {
+                    self.isPresentingAlertError = true
+                    self.errorDescription = error.localizedDescription
                 }
             }
         }
@@ -137,7 +146,8 @@ import Firebase
         let storageRef = Storage.storage().reference().child(FirebaseKeys.menuImages).child(sectionTitle).child("\(dishImgName).jpg")
         storageRef.getData(maxSize: 1 * 480 * 480) { data, error in
             if let error = error {
-                print("Error fetchDishImages", error)
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
             } else {
                 guard let imgData = data else { return }
                 guard let image = UIImage(data: imgData) else { return }
@@ -146,4 +156,3 @@ import Firebase
         }
     }
 }
-//TODO: error handling

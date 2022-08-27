@@ -26,6 +26,13 @@ struct FullCartView: View {
                         .background(Color("darkRed").opacity(0.8))
                 }
             }
+            .alert(isPresented: $cartViewModel.isPresentingAlertError, content: {
+                Alert(
+                    title: Text("Сталася помилка"),
+                    message: Text(cartViewModel.errorDescription),
+                    dismissButton: .default(Text("Добре"))
+                )
+            })
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: backNavButton)
         }
