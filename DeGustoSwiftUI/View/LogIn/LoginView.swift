@@ -97,7 +97,7 @@ extension LoginView {
     
     var continueWithFacebook: some View {
         Button {
-            print("continue with facebook")
+            userAutorization.facebookLogin()
         } label: {
             Image("continueWithFacebook")
                 .resizable()
@@ -116,4 +116,3 @@ extension LoginView {
         }.padding()
     }
 }
-//TODO: implement facebook login

@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import FBSDKLoginKit
 
 @MainActor final class UserAutorization: ObservableObject {
     
@@ -14,6 +15,7 @@ import Firebase
     @Published var forgotPasswordEmailWasSent = false
     @Published var isPresentingAlertError = false
     @Published var errorDescription = ""
+    let loginManager = LoginManager()
     
     func autorizeUser() {
         if Auth.auth().currentUser != nil {
@@ -91,6 +93,26 @@ import Firebase
                 guard let userUid = authResult?.user.uid else { return }
                 Firestore.firestore().collection(FirebaseKeys.collectionUsers).document(userUid).setData([ FirebaseKeys.favorites: [] ])
                 self.isAnonymous = ((Auth.auth().currentUser?.isAnonymous) != nil)
+            }
+        }
+    }
+    
+    func facebookLogin() {
+        loginManager.logIn(permissions: ["public_profile", "email"], from: nil) { loginResult, error  in
+            if let error = error {
+                self.isPresentingAlertError = true
+                self.errorDescription = error.localizedDescription
+                print("Error fb login: ", error.localizedDescription)
+            }
+            guard let safeToken = AccessToken.current?.tokenString else {return}
+            let credential = FacebookAuthProvider.credential(withAccessToken: safeToken)
+            Auth.auth().signIn (with: credential) { (authResult, error) in
+                if let error = error {
+                    self.isPresentingAlertError = true
+                    self.errorDescription = error.localizedDescription
+                    print("Facebook authentication with Firebase error: ", error)
+                }
+                self.isAnonymous = false
             }
         }
     }

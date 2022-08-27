@@ -11,4 +11,7 @@ target 'DeGustoSwiftUI' do
 	pod 'Firebase/Storage'
 	pod 'Firebase/Database'
 
+  	pod 'FBSDKLoginKit'
+  	pod 'FBSDKCoreKit'
+
  end

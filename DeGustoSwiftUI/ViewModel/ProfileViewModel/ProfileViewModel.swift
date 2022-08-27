@@ -55,8 +55,6 @@ import Firebase
             userInfo.userPhoto = Image(uiImage: uiImage)
         } catch {
             userInfo.userPhoto = Image(systemName: "person")
-            isPresentingAlertError = true
-            errorDescription = error.localizedDescription
         }
     }
     
