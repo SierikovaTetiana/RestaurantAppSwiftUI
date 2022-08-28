@@ -14,20 +14,22 @@ struct ChangePasswordView: View {
     @State var newPassword = ""
     
     var body: some View {
-        VStack {
-            Spacer()
-            Image("logo")
-                .padding(.vertical)
-            Spacer()
-            areYouSureText
-            Spacer()
-            textFields
-            Spacer()
-            changePasswordButton
-            Spacer()
-            Spacer()
-                .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: backNavButton)
+        ScrollView {
+            VStack {
+                Spacer()
+                Image("logo")
+                    .padding(.vertical)
+                Spacer()
+                areYouSureText
+                Spacer()
+                textFields
+                Spacer()
+                changePasswordButton
+                Spacer()
+                Spacer()
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarItems(leading: backNavButton)
+            }
         }.onTapGesture { hideKeyboard() }
             .alert(isPresented: $profileViewModel.isPresentingAlertError, content: {
                 Alert(

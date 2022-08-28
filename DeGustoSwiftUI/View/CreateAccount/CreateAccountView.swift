@@ -16,19 +16,21 @@ struct CreateAccountView: View {
     @State var phone = ""
     
     var body: some View {
-        VStack {
-            Spacer()
-            Image("logo")
-                .padding(.vertical)
-            Spacer()
-            textFields
-            Spacer()
-            registrationButton
-            Spacer()
-            policyRules
-            Spacer()
-                .navigationBarBackButtonHidden(true)
-                .navigationBarItems(leading: backNavButton)
+        ScrollView {
+            VStack {
+                Spacer()
+                Image("logo")
+                    .padding(.vertical)
+                Spacer()
+                textFields
+                Spacer()
+                registrationButton
+                Spacer()
+                policyRules
+                Spacer()
+                    .navigationBarBackButtonHidden(true)
+                    .navigationBarItems(leading: backNavButton)
+            }
         }.onTapGesture { hideKeyboard() }
             .alert(isPresented: $userAutorization.isPresentingAlertError, content: {
                 Alert(

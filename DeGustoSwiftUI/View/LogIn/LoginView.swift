@@ -20,20 +20,22 @@ struct LoginView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            ZStack {
-                VStack {
-                    Image("logo")
-                        .padding(.top)
-                    Spacer()
-                    textFields
-                    logInAndRememberPasswordButtons
-                    Spacer()
-                    continueWithFacebook
-                    Spacer()
-                    createNewAccount
-                        .alert("Лист було надіслано на вашу електрону адресу. Будь ласка, перевірте", isPresented: $userAutorization.forgotPasswordEmailWasSent) {
-                            Button("Добре") { }
-                        }
+            ScrollView {
+                ZStack {
+                    VStack {
+                        Image("logo")
+                            .padding(.top)
+                        Spacer()
+                        textFields
+                        logInAndRememberPasswordButtons
+                        Spacer()
+                        continueWithFacebook
+                        Spacer()
+                        createNewAccount
+                            .alert("Лист було надіслано на вашу електрону адресу. Будь ласка, перевірте", isPresented: $userAutorization.forgotPasswordEmailWasSent) {
+                                Button("Добре") { }
+                            }
+                    }
                 }
             }.background(AlertWithTextField(textFromAlert: $forgotPasswordEmail, show: $showingAlertForgotPassword, conformChanges: $conformChangesFromAlert, title: "Ви дійсно хочете скинути пароль?", message: "Введіть адресу електроної пошти, будь ласка"))
                 .onChange(of: conformChangesFromAlert, perform: { newValue in
